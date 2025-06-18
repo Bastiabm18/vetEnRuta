@@ -7,6 +7,7 @@ runConfig:
   # maxInstances: 100   # Número máximo de instancias del servidor
   # concurrency: 80    # Peticiones simultáneas por instancia
   # cpu: 1             # Número de CPUs para cada instancia
+  # cpu: 1             # Número de CPUs para cada instancia
   # memoryMiB: 512     # Memoria asignada a cada instancia en MiB
 
 # Variables de entorno y secretos.
