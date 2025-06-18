@@ -2,22 +2,35 @@
 # See https://firebase.google.com/docs/app-hosting/configure#cloud-run
 runConfig:
   minInstances: 0
+  # Puedes ajustar estas configuraciones si lo necesitas.
+  # Por ahora, los valores predeterminados (o no especificados) suelen ser suficientes.
   # maxInstances: 100
   # concurrency: 80
   # cpu: 1
   # memoryMiB: 512
 
 # Environment variables and secrets.
-# env:
-  # Configure environment variables.
-  # See https://firebase.google.com/docs/app-hosting/configure#user-defined-environment
-  # - variable: MESSAGE
-  #   value: Hello world!
-  #   availability:
-  #     - BUILD
-  #     - RUNTIME
+env:
+  # Credenciales para Firebase Admin SDK
+  # Estas variables son leídas por tu archivo '../../../../lib/firebase-admin.ts'
+  - variable: FIREBASE_ADMIN_PROJECT_ID
+    value: "veterinariaconcepcion-86d83"
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: FIREBASE_ADMIN_CLIENT_EMAIL
+    value: "firebase-adminsdk-fbsvc@veterinariaconcepcion-86d83.iam.gserviceaccount.com"
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: FIREBASE_ADMIN_PRIVATE_KEY
+    # ¡IMPORTANTE! Este valor es una clave privada sensible. NO lo compartas.
+    # Debe estar en una sola línea en YAML, pero manteniendo los '\n' para los saltos de línea.
+    value: "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDA3cZbcnk3RYmE\n62ALPT+bMR8mo/xMGNMh2WW+mpl6JVOxV8uGvwBuRJSZpnfeDpWyFz3F7J4691Ua\nrNPAZd22pp4ZdzQsJxTm/XbKZPLEq4AWpYi1Ia71CxsHTtk5CInjzQkp0J/Bte5J\njjD3V8rh5qyWmbR52cnc3Arsf7XMJo+qhihMFcWu6WyB8/zyqLUDPlctdHCEhpsc\nSodqFW+f2Cff+CyhVYfHSAwxi/pubGHoNceWoGD/VDUY2xd4EC01EbYkyp7KFk1x\n/2ivHwx9zL7pAh+Kk2nTp6wcD5+cLVoNIDlAYwL2jkXB69vBSU4L5pCAXteBScsU\nOf5FSVGpAgMBAAECggEAVpyBspmC1A53RmjJdeKoiNITci/cYnQXhLDzXxhgahkP\nL6oErVtjHyHPNf0rAV69XP/Q7uxm1oYyAsuwQEu+uIK0py0AEf/vBBi5WwTgfO+j\nkwf9j5Iz1rmJBswjAtjRy6pNPikBRWWlQAUJ+lnDs5T61prqEHp8i6GJilGD28yB\nrHnDAt7mEMdM9nUmeCE7BeFfKuuTgeZW0EPHFwz9lbWj1pjqAjWNUE/EmYAvKBpV\nHo3RHes/dJq+qPLbODAqhDxHz5PNfIU2CnFq2z3uFA5CuxVi2Oq48wnP3GH1wh9s\nhCh6g8XC3RLvBGeNeZEMwA3LivXNhap+Hj44xpMgjQKBgQDmi4f9Ex94vPRhzh/U\nUbch/ix+tYdUiIbLkysB62VEBUEoyai/aVZWW6EbEsI74vjHp12n4Wg/dL83co8r\n1bScohe6MQTTMxPUgfSk7wikfVHg7RjQ6RfEHaO0KkF8Vz4yPwT63OTU8dVjegHK\nI2VfwNHArorMxQ1dHzI+59JLzwKBgQDWKTxU2N0r9IvNnccNDXdlgCW6wKM7GBZi\not+qANBvfy3za6+z9gYjcYpIHlH68Xy5o0Zefp3l47zp7KuMWAS/3QSuxfq5VE4Q\nhrFcXXw+SO8WTXc4f+lIMFeIueuN4j3X8xU+pbygy0n9BD7GJjA2VyrN/IZ5kuSR\n230zXheRBwKBgQDPfU7Txy0w9iagC+p7pVvD3UVgeLIms4VVnMs9PAV01aHSOsSE\nGSLaMDdr7VMgoOM0lX3mBSlUyxb5qUIPupOF0SC3szxbdIHpZViwRG2r1Rom7FzE\nULTSDbbzBIDRjpdsk2lA+iN9P3XExN7tdTPcnOZqmuxS5Rpk8BnBodST4wKBgQCx\nzpK0r0kSEXtxP6ngAGo872Rj5USg76LGSgwBDaQArkrsa1/5vi3ih4YT0nimLJEt\nX44xLlbSY36ZiVH0t69ZzJrysJU2AfS+a9YdpdBdthgrIC33zttUgC5s6k/UAR7v\niHb/CIPPzHilhTzJLzOgKkbzttG/ZmI3Z1BPsbNHSQKBgFQoxFQryXERODqaxbvO\nUjqKmPbZhFmurRm/EzHt1WTax17d4Xcoo+IrcbJFsHbolzITiFJV+pEXl3aqjoma\nRrC1tcZ/D/w0Z7h4tj+fA1jYTP5oPuWIOxIgOJtXuQH44oe1dfhBAgGFuipldtMFt\nOz6ajzjyYR+aif9OfTGc8krW\n-----END PRIVATE KEY-----\n"
+    availability:
+      - BUILD
+      - RUNTIME
 
-  # Grant access to secrets in Cloud Secret Manager.
-  # See https://firebase.google.com/docs/app-hosting/configure#secret-parameters
+  # Puedes comentar o eliminar esta sección si no estás utilizando Secret Manager para otros secretos.
   # - variable: MY_SECRET
   #   secret: mySecretRef
