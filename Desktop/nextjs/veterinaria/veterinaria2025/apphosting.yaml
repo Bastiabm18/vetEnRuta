@@ -21,7 +21,7 @@ env:
     value: "veterinariaconcepcion-86d83"
     availability:
       - BUILD
-      - RUNTIME # Disponible durante la compilación y en tiempo de ejecución.
+      - RUNTIME
 
   - variable: FIREBASE_ADMIN_CLIENT_EMAIL
     value: "firebase-adminsdk-fbsvc@veterinariaconcepcion-86d83.iam.gserviceaccount.com"
@@ -30,41 +30,11 @@ env:
       - RUNTIME
 
   - variable: FIREBASE_ADMIN_PRIVATE_KEY
-    # ¡ATENCIÓN! Esta es tu CLAVE PRIVADA SENSIBLE.
-    # No la compartas públicamente. Esta es la única copia completa en tu repositorio.
-    # El caracter '|-' (pipe con guion) es crucial para YAML.
-    # Le dice a YAML que interprete el siguiente bloque de texto como una cadena literal,
-    # manteniendo todos los saltos de línea y eliminando el salto de línea final por defecto.
-    # Asegúrate de que el contenido de la clave esté indentado por 2 espacios adicionales.
-    value: |-
-      -----BEGIN PRIVATE KEY-----
-      MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCa5ejZieWNJT5c
-      hp2W3sl/Y5g9ijIIHlJj4kggGc/jUPoTirlsVEUTbHCo9SGHiloP4D03FpXAjL0Q
-      3Epvlr8tHVJJ4RiyIpZOLELvip5bdW7a5GfQXsU1VR9CG7OP01eZMlxEUMQm+7/F
-      DBmjoczaEPijLCNkelKm00oLK6vNGiMfSwVzGsBNwCz1bClnafOEOpaB1UYAKlTU
-      ncGqq08Hh/fCMHD1oxZPeCnrQ3+eIsrCpD3a8q3n1G4oPOC1G058DgYzstoWa/iXZ
-      NTaVWRmwO9D4j8iAML3AJ5JDWJxUKHhPbIteKcdVesm9VyWPzp/igvb5SG3RbQkz
-      x0eHM6GvAgMBAAECggEAJeAb7L18ROQbeJJuDEsTqDOZMUsOas/HQ6c8DaViIOpX
-      C9o69tMwRMyaS6YM+dCJryIctdCu83M2c9350Ylh2800pt4EpOIyMJFAGMSjbier
-      4JhDDj9uJ1lWGFsfsAZ0gABBcW7yV7ntLWiFCG7y4UuPEI8lZFdIyIQXsd2O18qv
-      6f/0RjV5LPthRikTq9fT0RdmnJTa9y38+ZjBvVWF23VccXcKGSYd11ubP1jaxuU/
-      1SFAOcgyuRM/nMoXIVBxHbJutOliQ/kIQrHU6lU6CLyhqfyF9XyLmwty7269yBWu
-      7leL9k5tSf1r1tUWFUXqdzNwOW8AV4v5XAaBFRkqwQKBgQDMq5Rxiu0TeQoZkuHP
-      q/cMXKaVmyZQHgr8vYs25Lq7/UZX+MPCHOlXneKKVQqgXvxhcqPPb4ZB9u/uq6oJ
-      jamE4olnLzsVesLOwMbdVhjHxo/YkpXJFhNyjkRTB7gT0wYPx5vjMRo9ITzNtnTO
-      fpR1fse4/5//cGD/PJ9u6js8oQKBgQDBvtBfgZc7Zp5M/42xJh9Hb/1Q0xMZaUWi
-      QJAAgirtkFFLHYm5Qq/rtn3wd+7+7YSNMI5s7ZNwPJG9ivyDKu33E8wQ2vRl7Zol
-      +f9DsbG0dp/3dkCLWw7RoaHYc4+UjWlqyFi6Ouu69Abv7gMfSu3XTTEx6oalxZKp
-      fgDNKlhsTwKBgECOEdkqR5Kvx8a/NGgrRlXo10Yy1IfKog6LvmBHDrsCrPBMb3pH
-      YjYXf3/ASQTCUPpvjUl9VKxztcPi81PmEcTvKwWXuRwSR2WtGkxvvossjuxxd7sg
-      MmwcgWJq+d2O3seVXw7uyubjF+mOlhMXi73vihFI129bQ8zdkzAJwzthAoGBAJ2N
-      /cfdC837enolS+WmmcMvWDHVJHACwuTaWgB/2kcMmH9cSvaEO6mU4z+dWJapMqTa
-      usfsP30DVIVuNEC6tX+68rU2SY9mNHfzoFk9dMTLvvSvjneFGjzxkzsBZt6oTPTQ
-      bg8sAS0sa0PMK2/UMCxpEruD+/FtBQKefCpb6EJTAoGBAMW3oY4bdXmujeiYwqx8
-      RoPouWH0pQ5oPvfGkUXholsEadLQMJvPGYOa5K0FgRD8xGCA1qsY4vbgC/utXC19
-      KpJJyKR2Az2kgW4TEOrL91ddxrKm+tVfIttORboZZKkxvUly257rN4Nef2DnLhTT
-      11IbWSpko2utqQcw6DHU75cu
-      -----END PRIVATE KEY-----
+    # ¡ESTE ES EL CAMBIO CRÍTICO!
+    # Ahora hacemos referencia al secreto en Cloud Secret Manager.
+    # El nombre 'firebase-admin-private-key-for-vetenruta' DEBE coincidir
+    # exactamente con el nombre del secreto que creaste en la consola de Secret Manager.
+    secret: firebase-admin-private-key-for-vetenruta
     availability:
       - BUILD
       - RUNTIME
