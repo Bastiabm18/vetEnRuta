@@ -1,4 +1,5 @@
 # Configuración del Backend (ejecutado en Cloud Run).
+# Configuración del Backend (ejecutado en Cloud Run).
 # Para más detalles: https://firebase.google.com/docs/app-hosting/configure#cloud-run
 runConfig:
   minInstances: 0
