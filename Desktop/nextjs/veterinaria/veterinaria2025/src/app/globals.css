@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%; /* white */
+  --foreground: 222.2 84% 4.9%; /* gray-900 */
+  --blue-jai: 226, 45%, 30%; /* Conversión HSL aproximada de #26336a */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: 222.2 84% 4.9%; /* gray-900 */
+    --foreground: 210 40% 98%; /* gray-50 */
+  }
+}
+
+body {
+  @apply bg-background text-foreground;
+}
+/* Para navegadores basados en Webkit (Chrome, Safari, Edge) */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Para Firefox */
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
