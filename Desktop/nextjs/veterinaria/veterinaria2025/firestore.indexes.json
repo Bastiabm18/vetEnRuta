@@ -1,0 +1,393 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "citas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "locationData.comuna",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.region",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.fecha",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.hora",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "citas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "locationData.comuna",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.region",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.veterinario.id",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.fecha",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.hora",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "citas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "locationData.fecha",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.hora",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "citas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "locationData.region",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.fecha",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.hora",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "citas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "locationData.region",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.veterinario.id",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.fecha",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.hora",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "citas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "locationData.veterinario.id",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.fecha",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "citas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "locationData.veterinario.id",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.fecha",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.hora",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "citas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "locationData.veterinario.id",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.fecha",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "citas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "veterinario.id",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "locationData.fecha",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "comunas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "regionId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "horas_disponibles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "comunaIdsFlat",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "fecha",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "hora",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "horas_disponibles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "comunaIdsFlat",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "veterinario.id",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fecha",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "hora",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "horas_disponibles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "fecha",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "id_comuna",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "hora",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "horas_disponibles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "id_comuna",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "veterinario.id",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fecha",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "horas_disponibles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "id_comuna",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "veterinario.id",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fecha",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "hora",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "horas_disponibles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "id_comuna",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "fecha",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "hora",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "horas_disponibles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "id_comuna",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "veterinario.id",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fecha",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "horas_disponibles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "id_comuna",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "veterinario.id",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fecha",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "hora",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "horas_disponibles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "veterinario.id",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fecha",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "pets",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "ownerId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "pets",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "users",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "role",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "displayName",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
