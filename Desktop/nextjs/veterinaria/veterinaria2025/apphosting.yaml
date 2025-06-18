@@ -1,35 +1,42 @@
-# Settings for Backend (on Cloud Run).
-# See https://firebase.google.com/docs/app-hosting/configure#cloud-run
+# Configuración del Backend (ejecutado en Cloud Run).
+# Para más detalles: https://firebase.google.com/docs/app-hosting/configure#cloud-run
 runConfig:
   minInstances: 0
-  # Puedes ajustar estas configuraciones (maxInstances, concurrency, cpu, memoryMiB)
-  # si tu app necesita más recursos. Por ahora, los valores predeterminados (o no especificados)
-  # suelen ser suficientes para empezar.
-  # maxInstances: 100
-  # concurrency: 80
-  # cpu: 1
-  # memoryMiB: 512
+  # Puedes ajustar estas configuraciones si tu aplicación lo requiere.
+  # Por ejemplo, para mayor rendimiento o para evitar "cold starts" (arranque en frío).
+  # maxInstances: 100   # Número máximo de instancias del servidor
+  # concurrency: 80    # Peticiones simultáneas por instancia
+  # cpu: 1             # Número de CPUs para cada instancia
+  # memoryMiB: 512     # Memoria asignada a cada instancia en MiB
 
-# Environment variables and secrets.
+# Variables de entorno y secretos.
+# Para más detalles: https://firebase.google.com/docs/app-hosting/configure#user-defined-environment
 env:
-  # Credenciales para Firebase Admin SDK
-  # Estas variables son leídas por tu archivo '../../../../lib/firebase-admin.ts'
+  # --- Credenciales para el SDK de Firebase Admin ---
+  # Estas variables son esenciales para que tus API Routes (como set-user-role)
+  # puedan inicializar el SDK de Firebase Admin en el lado del servidor.
+  # Tu archivo `lib/firebase-admin.ts` está configurado para leer estas 3 variables.
+
   - variable: FIREBASE_ADMIN_PROJECT_ID
     value: "veterinariaconcepcion-86d83"
     availability:
       - BUILD
-      - RUNTIME
+      - RUNTIME # Disponible durante la compilación y en tiempo de ejecución.
+
   - variable: FIREBASE_ADMIN_CLIENT_EMAIL
     value: "firebase-adminsdk-fbsvc@veterinariaconcepcion-86d83.iam.gserviceaccount.com"
     availability:
       - BUILD
       - RUNTIME
+
   - variable: FIREBASE_ADMIN_PRIVATE_KEY
-    # ¡IMPORTANTE! Este valor es tu clave privada sensible. NO la compartas públicamente.
-    # El caracter '|' (pipe) indica a YAML que interprete el bloque siguiente como una cadena literal,
-    # manteniendo los saltos de línea y el formato original.
-    # Asegúrate de que el contenido de la clave privada esté indentado por 2 espacios adicionales.
-    value: |
+    # ¡ATENCIÓN! Esta es tu CLAVE PRIVADA SENSIBLE.
+    # No la compartas públicamente. Esta es la única copia completa en tu repositorio.
+    # El caracter '|-' (pipe con guion) es crucial para YAML.
+    # Le dice a YAML que interprete el siguiente bloque de texto como una cadena literal,
+    # manteniendo todos los saltos de línea y eliminando el salto de línea final por defecto.
+    # Asegúrate de que el contenido de la clave esté indentado por 2 espacios adicionales.
+    value: |-
       -----BEGIN PRIVATE KEY-----
       MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDA3cZbcnk3RYmE
       62ALPT+bMR8mo/xMGNMh2WW+mpl6JVOxV8uGvwBuRJSZpnfeDpWyFz3F7J4691Ua
