@@ -6,46 +6,49 @@ import { getFirestore } from 'firebase-admin/firestore';
 // Asegúrate de que los nombres aquí coincidan con los de tu apphosting.yaml
 const PROJECT_ID = process.env.FIREBASE_ADMIN_PROJECT_ID;
 const CLIENT_EMAIL = process.env.FIREBASE_ADMIN_CLIENT_EMAIL;
-const PRIVATE_KEY = process.env.FIREBASE_ADMIN_PRIVATE_KEY; // Ya debería tener \n escapados
+const PRIVATE_KEY = process.env.FIREBASE_ADMIN_PRIVATE_KEY;
 
-// Verifica que todas las credenciales necesarias existan
+// --- Verificación Crucial de Credenciales ---
+// Esto detendrá la aplicación con un error claro si faltan variables de entorno
 if (!PROJECT_ID || !CLIENT_EMAIL || !PRIVATE_KEY) {
   const missing = [];
   if (!PROJECT_ID) missing.push('FIREBASE_ADMIN_PROJECT_ID');
   if (!CLIENT_EMAIL) missing.push('FIREBASE_ADMIN_CLIENT_EMAIL');
   if (!PRIVATE_KEY) missing.push('FIREBASE_ADMIN_PRIVATE_KEY');
 
-  // Lanza un error claro si falta alguna variable.
-  // Esto hará que el build falle con un mensaje más informativo si el problema es la ENV.
-  throw new Error(`Firebase Admin SDK: Missing environment variables: ${missing.join(', ')}. Please check apphosting.yaml.`);
+  const errorMessage = `Firebase Admin SDK: Faltan variables de entorno críticas: ${missing.join(', ')}. Por favor, verifica tu apphosting.yaml.`;
+  console.error(errorMessage); // Imprime el error para depuración
+  throw new Error(errorMessage); // Lanza el error para detener el proceso
 }
 
-// Opcional: Asegurarse que los saltos de línea de la privateKey sean correctos
-// El YAML ya debería manejar los \n correctamente si los copiaste bien,
-// pero si sigues teniendo problemas con la clave, esta línea ayuda:
-const formattedPrivateKey = PRIVATE_KEY.replace(/\\n/g, '\n');
+// La clave privada ya debería venir correctamente formateada con saltos de línea reales (\n)
+// gracias al formato 'value: |' en apphosting.yaml.
+// Ya no necesitamos .split('\\n').join('\n')
+const formattedPrivateKey = PRIVATE_KEY;
 
 const firebaseAdminConfig = {
   credential: cert({
     projectId: PROJECT_ID,
     clientEmail: CLIENT_EMAIL,
-    privateKey: formattedPrivateKey, // Usamos la clave formateada si es necesario
+    privateKey: formattedPrivateKey,
   }),
   databaseURL: `https://${PROJECT_ID}.firebaseio.com`
 };
 
-// Patrón Singleton para Firebase Admin
+// --- Patrón Singleton para Firebase Admin ---
+// Asegura que la app de Firebase Admin se inicialice solo una vez.
 function createFirebaseAdminApp(): App {
   if (getApps().length === 0) {
-    console.log("Initializing Firebase Admin SDK..."); // Para depuración en los logs
+    console.log("Firebase Admin SDK: Inicializando..."); // Log para depuración en los logs de despliegue
     return initializeApp(firebaseAdminConfig);
   }
-  console.log("Firebase Admin SDK already initialized."); // Para depuración
+  console.log("Firebase Admin SDK: Ya inicializado."); // Log para depuración
   return getApp();
 }
 
 const adminApp = createFirebaseAdminApp();
 
-// Exporta las instancias inicializadas
+// --- Exporta las instancias inicializadas ---
+// Puedes usar adminAuth y adminFirestore en tus API Routes y otras funciones de servidor.
 export const adminAuth = getAuth(adminApp);
 export const adminFirestore = getFirestore(adminApp);
