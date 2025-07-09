@@ -338,7 +338,7 @@ export default function ConfirmationClientContent() { // <-- ¡NOMBRE DEL COMPON
                   <>
                   Si tienes alguna duda sobre la consulta, no dudes en hablarnos directamente a nuestro {' '}
                   <Link 
-                    href="https://wa.me/++5696097887" 
+                    href="https://wa.me/+5696097887" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="inline-flex items-center text-green-vet hover:underline ml-1"
