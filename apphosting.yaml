@@ -10,6 +10,8 @@ run:
 
 # Variables de entorno PÚBLICAS
 envs:
+# Esto toma la configuración que nos da Firebase y la expone al cliente de forma segura.
+  NEXT_PUBLIC_FIREBASE_WEBAPP_CONFIG: "$(FIREBASE_WEBAPP_CONFIG)"
   # Firebase Client Config
   NEXT_PUBLIC_FIREBASE_API_KEY: "AIzaSyBz4Ca7ySzi8aEVAu5GKRdzxv0Dwc7uiVo"
   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: "veterinariaconcepcion-86d83.firebaseapp.com"
