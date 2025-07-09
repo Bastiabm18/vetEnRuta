@@ -28,20 +28,19 @@ export function getFirebaseClientInstances() {
     return instances;
   }
 
-  // Definimos la configuración DENTRO de la función para asegurar que se lee en el cliente
-  const firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
-  };
+  // --- LA CORRECCIÓN CLAVE ESTÁ AQUÍ ---
+  // Leemos la configuración completa desde la variable que nos da App Hosting
+  const firebaseConfigString = process.env.NEXT_PUBLIC_FIREBASE_WEBAPP_CONFIG;
+
+  if (!firebaseConfigString) {
+    throw new Error("Firebase Web App Config no encontrada. Revisa la configuración de App Hosting.");
+  }
+
+  const firebaseConfig = JSON.parse(firebaseConfigString);
   
-  // Verificamos que la clave de API exista
+  // Verificamos que la clave de API exista después de parsear el JSON
   if (!firebaseConfig.apiKey) {
-      throw new Error("Firebase API Key del cliente no encontrada. Revisa las variables de entorno.");
+      throw new Error("Firebase API Key del cliente no encontrada en la configuración. Revisa las variables de entorno.");
   }
 
   let app: FirebaseApp;
