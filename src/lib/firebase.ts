@@ -1,63 +1,56 @@
-// lib/firebase.ts
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getAuth, Auth } from 'firebase/auth';
 import { getFirestore, Firestore } from 'firebase/firestore';
 import { getStorage, FirebaseStorage } from 'firebase/storage';
 
-// Re-exportamos las funciones y proveedores que usas en otras partes de tu app
-export { 
-  GoogleAuthProvider, 
-  FacebookAuthProvider,
-  signInWithPopup,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
-} from 'firebase/auth';
-
-// Guardaremos las instancias aquí para no reinicializar
-let instances: {
+// Tipado para las instancias
+interface FirebaseInstances {
   app: FirebaseApp;
   auth: Auth;
   db: Firestore;
   storage: FirebaseStorage;
-} | null = null;
+}
 
-// Esta es la función clave que tus componentes llamarán
-export function getFirebaseClientInstances() {
-  // Si ya las creamos, las devolvemos inmediatamente
-  if (instances) {
-    return instances;
-  }
+let instances: FirebaseInstances | null = null;
 
-  // Leemos las variables de entorno individuales.
+export function getFirebaseClientInstances(): FirebaseInstances {
+  if (instances) return instances;
+
+  // Configuración desde variables de entorno
   const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
     projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET, // Usará .firebasestorage.app
     messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
   };
-  
-  // Verificamos que la clave de API exista
-  if (!firebaseConfig.apiKey) {
-      throw new Error("Firebase API Key del cliente no encontrada. Revisa las variables de entorno en apphosting.yaml.");
+
+  // Validación crítica
+  if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+    throw new Error("❌ Configuración incompleta de Firebase. Verifica tus variables de entorno.");
   }
 
-  let app: FirebaseApp;
-  if (!getApps().length) {
-    app = initializeApp(firebaseConfig);
-  } else {
-    app = getApp();
-  }
+  // Inicialización condicional
+  const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-  // Creamos y guardamos las instancias en caché
   instances = {
     app,
     auth: getAuth(app),
     db: getFirestore(app),
-    storage: getStorage(app),
+    storage: getStorage(app) // Storage con el nuevo dominio
   };
+
+  // Debug (opcional)
+  console.log("Firebase inicializado con Storage:", firebaseConfig.storageBucket);
 
   return instances;
 }
+
+// Exporta tipos y funciones útiles
+export { 
+  GoogleAuthProvider, 
+  signInWithPopup,
+  createUserWithEmailAndPassword 
+} from 'firebase/auth';
