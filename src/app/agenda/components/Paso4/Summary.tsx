@@ -6,8 +6,8 @@ import { useAppointmentStore } from '@/lib/stores/appointmentStore';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { collection, getDocs } from 'firebase/firestore'; // Importa funciones de Firestore
-import { db } from '@/lib/firebase'; // Importa tu instancia de la base de datos de Firebase
-
+//import { db } from '@/lib/firebase'; // Importa tu instancia de la base de datos de Firebase
+import { getFirebaseClientInstances } from '@/lib/firebase';
 export const Summary = () => {
   const { locationData, mascotas, datosDueño, precio_base } = useAppointmentStore();
 
@@ -19,6 +19,7 @@ export const Summary = () => {
   useEffect(() => {
     const fetchComunas = async () => {
       try {
+        const {auth, db, storage} = getFirebaseClientInstances(); 
         const querySnapshot = await getDocs(collection(db, 'comunas'));
         const map: Record<string, string> = {};
         querySnapshot.forEach((doc) => {

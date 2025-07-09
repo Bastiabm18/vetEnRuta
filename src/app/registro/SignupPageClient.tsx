@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { auth, createUserWithEmailAndPassword, db } from '@/lib/firebase';
+import { createUserWithEmailAndPassword, getFirebaseClientInstances } from '@/lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { FaSpinner, FaArrowLeft } from 'react-icons/fa';
 import { PiDogDuotone } from 'react-icons/pi';
@@ -22,6 +22,7 @@ export default function SignupPage() {
     setError('');
     
     try {
+       const { auth, db, storage } = getFirebaseClientInstances();
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       
       var user = Math.random().toString(36);

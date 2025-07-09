@@ -2,7 +2,8 @@
 "use client"
 import { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+//import { db } from '@/lib/firebase';
+import { getFirebaseClientInstances } from '@/lib/firebase';
 import { motion } from 'framer-motion';
 import { useAppointmentStore } from '@/lib/stores/appointmentStore';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
@@ -20,6 +21,7 @@ export const SelectRegion = () => {
   useEffect(() => {
     const fetchRegiones = async () => {
       try {
+        const { auth, db, storage } = getFirebaseClientInstances();
         const snapshot = await getDocs(collection(db, 'regiones'));
         const regionesData = snapshot.docs.map(doc => ({ 
           id: doc.id, 

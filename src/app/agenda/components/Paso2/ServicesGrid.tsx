@@ -5,7 +5,8 @@ import { motion } from 'framer-motion';
 import { useAppointmentStore, ServicioDetalle } from '@/lib/stores/appointmentStore';
 import { addServiceToMascotaFromFirestore, removeServiceFromMascotaFromStore } from './actions';
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+//import { db } from '@/lib/firebase';
+import { getFirebaseClientInstances } from '@/lib/firebase';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { CustomButton } from '../shared/CustomButton';
 
@@ -33,6 +34,7 @@ export const ServicesGrid = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
+        const { auth, db, storage } = getFirebaseClientInstances();
         const snapshot = await getDocs(collection(db, 'servicios'));
         const servicesData = snapshot.docs.map(doc => {
           const data = doc.data(); // Obtenemos todos los datos del documento

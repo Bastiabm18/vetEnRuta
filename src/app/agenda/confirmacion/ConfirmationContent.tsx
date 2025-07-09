@@ -4,7 +4,8 @@
 
 import { useSearchParams } from 'next/navigation';
 import { doc, getDoc } from 'firebase/firestore';
-import { app, db } from '@/lib/firebase';
+//import { app, db } from '@/lib/firebase';
+import { getFirebaseClientInstances } from '@/lib/firebase';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -151,6 +152,7 @@ export default function ConfirmationClientContent() { // <-- ¡NOMBRE DEL COMPON
       }
 
       try {
+        const { auth, db, storage } = getFirebaseClientInstances();
         const docRef = doc(db, 'citas', appointmentId);
         const docSnap = await getDoc(docRef);
 

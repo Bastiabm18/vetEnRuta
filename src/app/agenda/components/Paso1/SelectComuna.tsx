@@ -2,7 +2,8 @@
 "use client"
 import { useEffect, useState } from 'react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+//import { db } from '@/lib/firebase';
+import { getFirebaseClientInstances } from '@/lib/firebase';
 import { motion, AnimatePresence } from 'framer-motion'; // Importa AnimatePresence
 import { useAppointmentStore } from '@/lib/stores/appointmentStore';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
@@ -23,6 +24,7 @@ export const SelectComuna = () => {
       if (!locationData.region) return;
       
       try {
+        const { auth, db, storage } = getFirebaseClientInstances();
         const q = query(
           collection(db, 'comunas'),
           where('regionId', '==', locationData.region)

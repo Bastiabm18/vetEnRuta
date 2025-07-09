@@ -1,7 +1,7 @@
 // /app/admin/promos/actions.ts
 'use server';
-
-import { db, storage } from '@/lib/firebase';
+import { getFirebaseClientInstances } from '@/lib/firebase';
+//import { db, storage } from '@/lib/firebase';
 import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, getDoc, orderBy, query, Timestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { revalidatePath } from 'next/cache';
@@ -39,6 +39,7 @@ export async function getPromoById(promoId: string): Promise<PromoItem | null> {
   }
 
   try {
+    const { auth, db, storage } = getFirebaseClientInstances();
     const promoRef = doc(db, PROMOS_COLLECTION_NAME, promoId);
     const docSnap = await getDoc(promoRef);
 
@@ -87,6 +88,7 @@ export async function addPromo(formData: FormData) {
   }
 
   try {
+    const { auth, db, storage } = getFirebaseClientInstances();
     if (typeof imageFile.arrayBuffer !== 'function') {
       return { success: false, message: 'Formato inválido de imagen.' };
     }
@@ -147,6 +149,7 @@ export async function updatePromo(id: string, formData: FormData) {
   }
 
   try {
+    const { auth, db, storage } = getFirebaseClientInstances();
     let imageUrl = '';
     let updatedImagePath = existingImagePath || '';
 
@@ -211,6 +214,7 @@ export async function deletePromo(id: string, imagePath: string) {
   }
 
   try {
+    const { auth, db, storage } = getFirebaseClientInstances();
     // Delete image from storage
     if (imagePath) {
       const imageRef = ref(storage, imagePath);
@@ -237,6 +241,7 @@ export async function deletePromo(id: string, imagePath: string) {
  */
 export async function getPromos_2(): Promise<PromoItem[]> {
   try {
+    const { auth, db, storage } = getFirebaseClientInstances();
     const q = query(collection(db, PROMOS_COLLECTION_NAME), orderBy('createdAt', 'desc'));
     const querySnapshot = await getDocs(q);
 
@@ -269,6 +274,7 @@ export async function getPromos_2(): Promise<PromoItem[]> {
  */
 export async function getPromos(): Promise<PromoItem[]> {
   try {
+    const { auth, db, storage } = getFirebaseClientInstances();
     const querySnapshot = await getDocs(collection(db, PROMOS_COLLECTION_NAME));
     const promos: PromoItem[] = querySnapshot.docs.map(doc => ({
       id: doc.id,

@@ -3,7 +3,8 @@
 
 import { useState, useEffect } from 'react';
 import { collection, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+//import { db } from '@/lib/firebase';
+import { getFirebaseClientInstances } from '@/lib/firebase';
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import Modal from './Modal';
 interface Pregunta {
@@ -26,6 +27,7 @@ export default function ListadoPreguntas() {
   useEffect(() => {
     const fetchPreguntas = async () => {
       try {
+        const { auth, db, storage } = getFirebaseClientInstances()
         const querySnapshot = await getDocs(collection(db, 'preguntaFrecuente'));
         const preguntasData = querySnapshot.docs.map(doc => ({
           id: doc.id,
@@ -57,6 +59,7 @@ export default function ListadoPreguntas() {
     if (!editingId || !editPregunta.trim() || !editRespuesta.trim()) return;
 
     try {
+      const { auth, db, storage } = getFirebaseClientInstances()
       await updateDoc(doc(db, 'preguntaFrecuente', editingId), {
         pregunta: editPregunta.trim(),
         respuesta: editRespuesta.trim()
@@ -83,6 +86,7 @@ export default function ListadoPreguntas() {
     if (!deleteId) return;
 
     try {
+      const { auth, db, storage } = getFirebaseClientInstances()
       await deleteDoc(doc(db, 'preguntaFrecuente', deleteId));
       setPreguntas(preguntas.filter(p => p.id !== deleteId));
     } catch (err) {

@@ -4,9 +4,10 @@
 import { ReactNode, useState } from 'react';
 import Sidebar from './Sidebar'; // Asegúrate de que esta ruta sea correcta
 import {signOut} from "firebase/auth";
-import { auth } from '@/lib/firebase'; // Asegúrate de que esta ruta sea correcta
+//import { auth } from '@/lib/firebase'; // Asegúrate de que esta ruta sea correcta
 import { useRouter } from 'next/navigation';
 import { FaDog } from 'react-icons/fa6';
+import { getFirebaseClientInstances } from '@/lib/firebase';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -19,13 +20,14 @@ export default function AdminLayout({ children, userEmail, userName, userRole }:
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
-
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
   };
 
   const handleSignOut = async () => {
     try {
+
+const { auth, db, storage } = getFirebaseClientInstances();
       await signOut(auth);
       console.log("User signed out from Firebase.");
 

@@ -3,7 +3,8 @@
 
 import { useState } from 'react';
 import { addDoc, collection } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+//import { db } from '@/lib/firebase';
+import { getFirebaseClientInstances } from '@/lib/firebase';
 
 export default function NuevaPreguntaForm() {
   const [pregunta, setPregunta] = useState('');
@@ -25,6 +26,7 @@ export default function NuevaPreguntaForm() {
     }
 
     try {
+      const { auth, db, storage } = getFirebaseClientInstances();
       await addDoc(collection(db, 'preguntaFrecuente'), {
         pregunta: pregunta.trim(),
         respuesta: respuesta.trim(),

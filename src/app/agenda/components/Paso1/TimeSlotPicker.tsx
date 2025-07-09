@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAppointmentStore } from '@/lib/stores/appointmentStore';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+//import { db } from '@/lib/firebase';
+import { getFirebaseClientInstances } from '@/lib/firebase';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 // La importación de reserveTimeSlot ya no es estrictamente necesaria aquí, pero la mantengo si la usas en otro lado
 import { reserveTimeSlot } from '@/lib/firebase/firestore'; 
@@ -50,6 +51,7 @@ export const TimeSlotPicker = () => {
       if (!locationData.comuna || typeof locationData.comuna !== 'string' || !locationData.fecha) return;
 
       try {
+        const { auth, db, storage } = getFirebaseClientInstances();
         setLoading(true);
         setError('');
 

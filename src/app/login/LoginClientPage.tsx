@@ -2,7 +2,14 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { auth, googleProvider, facebookProvider, signInWithPopup, signInWithEmailAndPassword } from '@/lib/firebase';
+// 1. Cambiamos los imports para traer las herramientas necesarias
+import { 
+  getFirebaseClientInstances,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  signInWithPopup,
+  signInWithEmailAndPassword
+} from '@/lib/firebase';
 import { FaGoogle, FaFacebook, FaSpinner, FaArrowLeft } from 'react-icons/fa';
 import { PiDogDuotone } from 'react-icons/pi';
 import Link from 'next/link';
@@ -21,6 +28,8 @@ export default function LoginPage() {
     setError('');
     
     try {
+      // 2. Obtenemos la instancia de 'auth' aquí dentro
+      const { auth } = getFirebaseClientInstances();
       await signInWithEmailAndPassword(auth, email, password);
       router.push('/');
     } catch (err: any) {
@@ -34,7 +43,13 @@ export default function LoginPage() {
     setError('');
     
     try {
-      const selectedProvider = provider === 'google' ? googleProvider : facebookProvider;
+      // 2. Obtenemos la instancia de 'auth' aquí dentro
+      const { auth } = getFirebaseClientInstances();
+      // 3. Creamos una nueva instancia del proveedor
+      const selectedProvider = provider === 'google' 
+        ? new GoogleAuthProvider() 
+        : new FacebookAuthProvider();
+        
       await signInWithPopup(auth, selectedProvider);
       router.push('/');
     } catch (err: any) {
@@ -64,10 +79,6 @@ export default function LoginPage() {
           <h1 className="text-2xl font-bold text-center">Iniciar Sesión</h1>
         </div>
         
-        {/* 
-          Original h1, now part of the flex container above
-        <h1 className="text-2xl font-bold text-center mb-6">Iniciar Sesión</h1>
-        */}
         <form onSubmit={handleEmailLogin} className="space-y-4">
           <div>
             <label className="block mb-1 text-sm font-medium">Correo Electrónico</label>

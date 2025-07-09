@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { auth, db } from '@/lib/firebase';
+//import { auth, db } from '@/lib/firebase';
+import { getFirebaseClientInstances } from '@/lib/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { motion } from 'framer-motion';
@@ -17,7 +18,9 @@ export default function Comentar() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
+
   useEffect(() => {
+      const { auth, db, storage } = getFirebaseClientInstances();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setLoading(false);
@@ -41,6 +44,7 @@ export default function Comentar() {
 
     setIsSubmitting(true);
     try {
+        const { auth, db, storage } = getFirebaseClientInstances();
       await addDoc(collection(db, 'comentarios'), {
         userId: currentUser.uid,
         userName: currentUser.displayName || 'Anónimo',

@@ -16,7 +16,8 @@ import { ServicesGrid } from './components/Paso2/ServicesGrid';
 import { OwnerForm } from './components/Paso3/OwnerForm';
 import { Summary } from './components/Paso4/Summary';
 import { CustomButton } from './components/shared/CustomButton';
-import { db } from '@/lib/firebase';
+//import { db } from '@/lib/firebase';
+import { getFirebaseClientInstances } from '@/lib/firebase';
 import { collection, addDoc,getDoc,doc, getDocs } from 'firebase/firestore';
 import { PiSpinnerBold } from 'react-icons/pi';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -33,6 +34,7 @@ export default function AgendaPage() {
     // Función asíncrona para obtener los datos de configuración desde Firestore
     const fetchInitialData = async () => {
       try {
+        const { auth, db, storage } = getFirebaseClientInstances();
         // Apuntamos a tu colección 'precio_base'
         const querySnapshot = await getDocs(collection(db, 'precio_base'));
         
@@ -121,6 +123,7 @@ export default function AgendaPage() {
     setIsSavingAppointment(true);
 
     try {
+      const { auth, db, storage } = getFirebaseClientInstances();
       if (!locationData.selectedTimeSlotId) {
           throw new Error('Error interno: No se ha seleccionado una hora para reservar.');
       }

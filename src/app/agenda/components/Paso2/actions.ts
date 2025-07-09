@@ -1,5 +1,5 @@
 // src/app/agenda/components/Paso2/actions.ts
-import { db } from '@/lib/firebase'; // Asegúrate de que esta ruta sea correcta
+//import { db } from '@/lib/firebase'; // Asegúrate de que esta ruta sea correcta
 import { doc, getDoc } from 'firebase/firestore'; // getDoc se mantiene por si acaso, aunque ya no se usa directamente en addServiceToMascotaFromFirestore
 import { useAppointmentStore, ServicioDetalle } from '@/lib/stores/appointmentStore'; // Asegúrate de que esta ruta y el tipo ServicioDetalle sean correctos
 
