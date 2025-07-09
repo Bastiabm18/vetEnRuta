@@ -1,6 +1,7 @@
 // src/app/agenda/confirmacion/page.tsx
 // Este es el componente de servidor (Wrapper) que usa Suspense.
-
+// 1. Añade esta línea para forzar el renderizado dinámico
+export const dynamic = 'force-dynamic';
 import { Suspense } from 'react';
 import { PiSpinnerBold } from 'react-icons/pi'; // Para el spinner de carga
 
