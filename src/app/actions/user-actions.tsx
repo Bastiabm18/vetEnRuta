@@ -1,10 +1,11 @@
 // app/actions/user-actions.ts
 "use server";
 
-import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
-
+import { getAdminInstances } from '@/lib/firebase-admin';
+  
 export async function updateUserRole(uid: string, role: string) {
   try {
+     const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     await adminFirestore.collection('users').doc(uid).update({ role });
     await adminAuth.setCustomUserClaims(uid, { role });
     await adminAuth.revokeRefreshTokens(uid);
@@ -17,6 +18,7 @@ export async function updateUserRole(uid: string, role: string) {
 
 export async function deleteUser(uid: string) {
   try {
+     const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     await adminFirestore.collection('users').doc(uid).delete();
     await adminAuth.deleteUser(uid);
     return { success: true };

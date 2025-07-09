@@ -1,8 +1,8 @@
 'use server';
 
-import { adminFirestore } from '@/lib/firebase-admin';
+//import { adminFirestore } from '@/lib/firebase-admin';
 import { Timestamp } from 'firebase-admin/firestore';
-
+import { getAdminInstances } from '@/lib/firebase-admin';
 interface CommentData {
   calificacion: number;
   comentario: string;
@@ -23,6 +23,7 @@ export interface CommentWithId extends CommentData {
  */
 export async function deleteComment(commentId: string): Promise<{ success: boolean; error?: string }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     await adminFirestore.collection('comentarios').doc(commentId).delete();
     return { success: true };
   } catch (error) {
@@ -40,6 +41,7 @@ export async function editComment(
   data: { calificacion?: number; comentario?: string; fecha?: Date; pets?: string } // 'pets' añadido como opcional
 ): Promise<{ success: boolean; error?: string }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const updateData: { [key: string]: any } = { ...data };
 
     // Si 'fecha' es proporcionado, convertirlo a un Firestore Timestamp
@@ -65,6 +67,7 @@ export async function editComment(
  */
 export async function getAllComments(): Promise<CommentWithId[]> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const snapshot = await adminFirestore
       .collection('comentarios')
       .orderBy('fecha', 'desc')
@@ -85,6 +88,7 @@ export async function getAllComments(): Promise<CommentWithId[]> {
  */
 export async function createComment(commentData: Omit<CommentData, 'fecha'>): Promise<{ success: boolean; id?: string; error?: string }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const docRef = await adminFirestore.collection('comentarios').add({
       ...commentData,
       fecha: Timestamp.now()
