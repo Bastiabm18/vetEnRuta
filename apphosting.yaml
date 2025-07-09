@@ -7,6 +7,7 @@ run:
   - npm run build
 
 # Variables de entorno públicas.
+# Estas son seguras para ser expuestas y tu frontend las necesita.
 envs:
   - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
     value: "veterinariaconcepcion-86d83.firebaseapp.com"
@@ -27,10 +28,22 @@ envs:
     value: "G-KS0RV4N77V"
     availability: [BUILD, RUNTIME]
 
-# Credenciales secretas.
-# Se cargan de forma segura desde Google Secret Manager.
+# Credenciales y claves secretas.
+# Estas se cargan de forma segura desde Google Secret Manager y se inyectan
+# como variables de entorno en tu aplicación.
 secrets:
-  # Clave de API de Firebase. Se inyecta como variable de entorno.
+  # Clave de API de Firebase.
   - name: NEXT_PUBLIC_FIREBASE_API_KEY
-    secret: firebase-api-key # Este es el único secreto de Firebase que necesitas.
+    secret: firebase-api-key # El nombre del secreto que ya creaste.
+    availability: [BUILD, RUNTIME]
+
+  # Claves de EmailJS.
+  - name: NEXT_PUBLIC_EMAILJS_SERVICE_ID
+    secret: emailjs-service-id # El nombre del secreto para el Service ID.
+    availability: [BUILD, RUNTIME]
+  - name: NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
+    secret: emailjs-template-id # El nombre del secreto para el Template ID.
+    availability: [BUILD, RUNTIME]
+  - name: NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+    secret: emailjs-public-key # El nombre del secreto para la Public Key.
     availability: [BUILD, RUNTIME]
