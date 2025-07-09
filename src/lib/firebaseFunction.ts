@@ -1,4 +1,5 @@
-import { auth, storage, db } from './firebase';
+//import { auth, storage, db } from './firebase';
+import { getFirebaseClientInstances } from "@/lib/firebase";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { doc, setDoc, collection, getDocs, query, orderBy, deleteDoc, serverTimestamp } from 'firebase/firestore';
 
@@ -47,6 +48,7 @@ export interface AppointmentData {
 
 export const createAppointment = async (data: Omit<AppointmentData, 'createdAt' | 'estado'>) => {
   try {
+    const { db,auth, storage  } = getFirebaseClientInstances();
     const appointmentsRef = collection(db, 'citas');
     const newAppointmentRef = doc(appointmentsRef);
     
@@ -67,6 +69,8 @@ export const createAppointment = async (data: Omit<AppointmentData, 'createdAt' 
 // Guardar o actualizar un post
 export const savePost = async (post: Post): Promise<string> => {
   try {
+    
+    const { db,auth, storage  } = getFirebaseClientInstances();
     const user = auth.currentUser;
     if (!user) throw new Error('Authentication required');
 
@@ -109,6 +113,8 @@ export const savePost = async (post: Post): Promise<string> => {
 // Obtener todos los posts
 export const getPosts = async (): Promise<Post[]> => {
   try {
+    
+    const { db,auth, storage  } = getFirebaseClientInstances();
     const postsQuery = query(collection(db, 'posts'), orderBy('createdAt', 'desc'));
     const querySnapshot = await getDocs(postsQuery);
     
@@ -130,6 +136,8 @@ export const getPosts = async (): Promise<Post[]> => {
 // Eliminar un post
 export const deletePost = async (postId: string): Promise<void> => {
   try {
+    
+    const { db,auth, storage  } = getFirebaseClientInstances();
     const user = auth.currentUser;
     if (!user) throw new Error('Authentication required');
 
