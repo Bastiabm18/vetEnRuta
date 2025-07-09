@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
+import { getAdminInstances } from '@/lib/firebase-admin';
+//import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
 import AccountMenu from '../AcountMenu';
 import MascotasClientContent from './MascotasClientContent';
 
@@ -27,6 +28,7 @@ export default async function MascotasPage() {
   }
 
   let userId: string;
+  const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
   try {
     const decodedToken = await adminAuth.verifySessionCookie(sessionCookie, true);
     userId = decodedToken.uid;
@@ -37,6 +39,7 @@ export default async function MascotasPage() {
   }
 
   try {
+        
     const userDoc = await adminFirestore.collection('users').doc(userId).get();
     if (!userDoc.exists) {
       return redirect('/login?error=user_not_found');

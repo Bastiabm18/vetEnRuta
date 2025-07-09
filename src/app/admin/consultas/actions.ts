@@ -2,7 +2,8 @@
 "use server";
 
 import { cookies } from 'next/headers';
-import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
+//import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
+import { getAdminInstances } from '@/lib/firebase-admin';
 import { FieldValue, Timestamp } from 'firebase-admin/firestore';
 
 // --- INTERFACES PARA CITAS ---
@@ -104,6 +105,7 @@ async function getLoggedInVeterinario(): Promise<{ id: string; nombre: string } 
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const decodedToken = await adminAuth.verifySessionCookie(sessionCookie);
     const userDoc = await adminFirestore.collection('users').doc(decodedToken.uid).get();
 
@@ -133,6 +135,7 @@ export async function removeMascotaFromCita(
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const citaDocRef = adminFirestore.collection('citas').doc(citaId);
     const citaDoc = await citaDocRef.get();
 
@@ -172,6 +175,7 @@ export async function getCitaById(citaId: string): Promise<{ cita?: Cita; error?
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const citaDocRef = adminFirestore.collection('citas').doc(citaId);
     const citaDoc = await citaDocRef.get();
 
@@ -267,6 +271,7 @@ export async function getRegionesComunas(regionId?: string): Promise<{
   error?: string;
 }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const regionesSnapshot = await adminFirestore.collection('regiones').orderBy('nombre').get();
     const regiones = regionesSnapshot.docs.map(doc => ({ id: doc.id, nombre: doc.data().nombre }));
 
@@ -297,6 +302,7 @@ export async function getCitas(filterRegionId?: string, filterComunaId?: string)
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     console.log("Consultando citas para veterinario ID:", veterinario.id);
     console.log("Filtros aplicados - Región:", filterRegionId, "Comuna:", filterComunaId);
 
@@ -452,6 +458,7 @@ export async function deleteCita(
   citaId: string
 ): Promise<{ success?: boolean; error?: string }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const veterinario = await getLoggedInVeterinario();
     if (!veterinario) {
       return { error: 'No autorizado para eliminar la cita. Inicia sesión.' };
@@ -478,6 +485,7 @@ export async function deleteCita(
 
 export async function getAvailableServices(): Promise<{ services?: Servicio[]; error?: string }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const servicesSnapshot = await adminFirestore.collection('servicios').get();
     const services: Servicio[] = servicesSnapshot.docs.map(doc => ({
       id: doc.id,
@@ -510,6 +518,7 @@ export async function updateMascotaServices(
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const citaDocRef = adminFirestore.collection('citas').doc(citaId);
     const citaDoc = await citaDocRef.get();
 
@@ -555,6 +564,7 @@ export async function addMascotaToCita(
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const citaDocRef = adminFirestore.collection('citas').doc(citaId);
     const citaDoc = await citaDocRef.get();
 
@@ -592,6 +602,7 @@ export async function createCita(citaData: Omit<Cita, 'id' | 'fechaCreacion' | '
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const docRef = await adminFirestore.collection('citas').add({
       ...citaData,
       precio_base: citaData.precio_base ?? 0, // Asegura que precio_base se pase, o se inicialice a 0 si no viene
@@ -622,6 +633,7 @@ export async function finalizeAppointment(appointmentId: string): Promise<{ succ
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const appointmentRef = adminFirestore.collection('citas').doc(appointmentId);
     const doc = await appointmentRef.get();
 

@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
+//import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
+import { getAdminInstances } from '@/lib/firebase-admin';
 import AdminLayout from '../../components/adminLayout';
 import RegionesSection from './RegionesSection';
 import ComunasSection from './ComunasSection';
@@ -15,6 +16,7 @@ export default async function ConfigPage() {
   if (!sessionCookie) return redirect('/login?redirect=/config');
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const decodedToken = await adminAuth.verifySessionCookie(sessionCookie, true);
    if (decodedToken.role !== 'admin') {
         return redirect('/admin');

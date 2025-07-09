@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
+//import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
+import { getAdminInstances } from '@/lib/firebase-admin';
 import AdminLayout from '@/app/components/adminLayout';
 import DeleteCommentButton from './DeleteCommentButton';
 import EditCommentForm from './EditCommentForm';
@@ -26,6 +27,7 @@ export default async function AdminOpinionesPage() {
   if (!sessionCookie) return redirect('/login');
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     // Session and role verification
     const decodedToken = await adminAuth.verifySessionCookie(sessionCookie, true);
     if (decodedToken.role !== 'admin') {
@@ -156,6 +158,7 @@ export default async function AdminOpinionesPage() {
       </AdminLayout>
     );
   } catch (error) {
+   const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances(); 
     console.error('Error en página de opiniones:', error);
     const decodedToken = await adminAuth.verifySessionCookie(sessionCookie, true);
     if (decodedToken.role === 'vet') {

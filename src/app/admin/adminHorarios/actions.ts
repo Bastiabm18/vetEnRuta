@@ -2,7 +2,8 @@
 "use server";
 
 import { cookies } from 'next/headers';
-import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
+//import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
+import { getAdminInstances } from '@/lib/firebase-admin';
 import { FieldValue } from 'firebase-admin/firestore';
 
 // Interfaces (asegúrate de que estas coincidan con la estructura de tu DB)
@@ -55,6 +56,7 @@ async function getAuthenticatedUserInfo(): Promise<UserInfo | null> {
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const decodedToken = await adminAuth.verifySessionCookie(sessionCookie);
     const userDoc = await adminFirestore.collection('users').doc(decodedToken.uid).get();
     
@@ -86,6 +88,7 @@ export async function getVeterinariansForAdmin(): Promise<{
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const usersSnapshot = await adminFirestore.collection('users')
       .where('role', 'in', ['vet', 'admin']) // Obtener usuarios con rol 'vet' o 'admin'
       .orderBy('displayName') // Ojo: si displayName no es un índice, esto podría fallar.
@@ -111,6 +114,7 @@ export async function getRegionesComunas(regionId?: string): Promise<{
   error?: string;
 }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const regionesSnapshot = await adminFirestore.collection('regiones').orderBy('nombre').get();
     const regiones = regionesSnapshot.docs.map(doc => ({ id: doc.id, nombre: doc.data().nombre }));
 
@@ -160,6 +164,7 @@ export async function generateMassScheduleForUser(
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     // Obtener el nombre del veterinario objetivo desde Firestore (para guardar en el documento)
     const targetVetDoc = await adminFirestore.collection('users').doc(targetVeterinarioId).get();
     if (!targetVetDoc.exists || (targetVetDoc.data()?.role !== 'vet' && targetVetDoc.data()?.role !== 'admin')) {
@@ -260,6 +265,7 @@ export async function getGeneratedSchedules(
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     let queryRef: FirebaseFirestore.Query = adminFirestore.collection('horas_disponibles');
     
     // Si se proporciona un veterinarioId, filtrar por él. Si no, obtener todos.
@@ -313,6 +319,7 @@ export async function updateScheduleAvailability(
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const scheduleDocRef = adminFirestore.collection('horas_disponibles').doc(scheduleId);
     const scheduleDoc = await scheduleDocRef.get();
 
@@ -365,6 +372,7 @@ export async function updateScheduleComunaValues(
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const scheduleDocRef = adminFirestore.collection('horas_disponibles').doc(scheduleId);
     const scheduleDoc = await scheduleDocRef.get();
 
@@ -400,6 +408,7 @@ export async function deleteSchedule(
     return { error: 'No autorizado. Solo administradores pueden eliminar horarios.' };
   }
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     await adminFirestore.collection('horas_disponibles').doc(scheduleId).delete();
     return { success: true };
   } catch (error) {

@@ -1,6 +1,8 @@
 import { NextResponse, NextRequest } from "next/server";
 import { cookies } from "next/headers";
-import { adminAuth, adminFirestore } from "../../../../lib/firebase-admin";
+//import { adminAuth, adminFirestore } from "../../../../lib/firebase-admin";
+import { getAdminInstances } from '@/lib/firebase-admin';
+
 import { DocumentSnapshot } from 'firebase-admin/firestore';
 
 const SESSION_COOKIE_NAME = "firebaseAuthSession";
@@ -8,6 +10,8 @@ const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 días
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
+       
     const body: { token?: string } = await request.json();
     const idToken = body.token;
 

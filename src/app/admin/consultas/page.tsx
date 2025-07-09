@@ -1,7 +1,8 @@
 // app/horarios/page.tsx
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { adminAuth } from '@/lib/firebase-admin';
+//import { adminAuth } from '@/lib/firebase-admin';
+import { getAdminInstances } from '@/lib/firebase-admin';
 import AdminLayout from '../../components/adminLayout'; // Asegúrate de que la ruta sea correcta
 import ConsultasManager from './ConsultasManager';
 //import MassScheduleManager from './MassScheduleManager';
@@ -15,6 +16,7 @@ export default async function HorariosPage() {
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const decodedToken = await adminAuth.verifySessionCookie(sessionCookie);
     if (decodedToken.role !== 'admin' && decodedToken.role !== 'vet') {
   return redirect('/login?redirect=/consultas');

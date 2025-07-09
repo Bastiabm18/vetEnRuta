@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
+import { getAdminInstances } from '@/lib/firebase-admin';
+//import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
 import AccountMenu from './AcountMenu';
 import { FaUserCircle } from 'react-icons/fa';
 
@@ -12,6 +13,8 @@ export default async function AccountPage() {
   if (!sessionCookie) return redirect('/login');
 
   try {
+     const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
+       
     // Verificar sesión
     const decodedToken = await adminAuth.verifySessionCookie(sessionCookie, true);
     const userId = decodedToken.uid;

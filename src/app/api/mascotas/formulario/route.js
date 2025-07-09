@@ -1,10 +1,14 @@
-import { adminFirestore } from '@/lib/firebase-admin';
+//import { adminFirestore } from '@/lib/firebase-admin';
+
+import { getAdminInstances } from '@/lib/firebase-admin';
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const petId = searchParams.get('petId');
   
   try {
+     const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
+       
     // Si hay petId, estamos editando una mascota existente
     if (petId) {
       const petDoc = await adminFirestore.collection('pets').doc(petId).get();

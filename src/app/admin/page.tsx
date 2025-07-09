@@ -2,7 +2,9 @@
 import React from 'react';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { adminAuth } from '@/lib/firebase-admin'; // Asegúrate de que esta ruta sea correcta
+
+import { getAdminInstances } from '@/lib/firebase-admin';
+//import { adminAuth } from '@/lib/firebase-admin'; // Asegúrate de que esta ruta sea correcta
 import AdminLayout from '../components/adminLayout'; // Asegúrate de que esta ruta sea correcta
 import Link from 'next/link';
 import { GrUserAdmin } from "react-icons/gr";
@@ -31,6 +33,7 @@ async function AdminPage() {
 
   let decodedToken;
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     decodedToken = await adminAuth.verifySessionCookie(sessionCookie, true);
   } catch (error) {
     console.error('[AdminPage] Session verification failed:', error);

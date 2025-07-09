@@ -2,7 +2,8 @@
 "use server";
 
 import { cookies } from 'next/headers';
-import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
+//import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
+import { getAdminInstances } from '@/lib/firebase-admin';
 import { FieldValue } from 'firebase-admin/firestore';
 
 // Interfaces (asegúrate de que estas coincidan con la estructura de tu DB)
@@ -54,6 +55,7 @@ async function getLoggedInVeterinario(): Promise<VeterinarioInfo | null> {
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const decodedToken = await adminAuth.verifySessionCookie(sessionCookie);
     const userDoc = await adminFirestore.collection('users').doc(decodedToken.uid).get();
     
@@ -79,6 +81,7 @@ export async function getRegionesComunas(regionId?: string): Promise<{
   error?: string;
 }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const regionesSnapshot = await adminFirestore.collection('regiones').orderBy('nombre').get();
     const regiones = regionesSnapshot.docs.map(doc => ({ id: doc.id, nombre: doc.data().nombre }));
 
@@ -124,6 +127,7 @@ export async function generateMassScheduleForUser(
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const partsStart = startDateString.split('-');
     const startDate = new Date(
       parseInt(partsStart[0]),
@@ -218,6 +222,7 @@ export async function getGeneratedSchedules(
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     let queryRef: FirebaseFirestore.Query = adminFirestore
       .collection('horas_disponibles')
       .where('veterinario.id', '==', veterinario.id)
@@ -265,6 +270,7 @@ export async function updateScheduleComunaValues(
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const scheduleDocRef = adminFirestore.collection('horas_disponibles').doc(scheduleId);
     const scheduleDoc = await scheduleDocRef.get();
 
@@ -298,6 +304,7 @@ export async function updateScheduleAvailability(
   targetAvailability: boolean
 ): Promise<{ success?: boolean; error?: string }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const scheduleDocRef = adminFirestore.collection('horas_disponibles').doc(scheduleId);
     const scheduleDoc = await scheduleDocRef.get();
 
@@ -341,6 +348,7 @@ export async function deleteSchedule(
   scheduleId: string
 ): Promise<{ success?: boolean; error?: string }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     await adminFirestore.collection('horas_disponibles').doc(scheduleId).delete();
     return { success: true };
   } catch (error) {

@@ -1,9 +1,12 @@
 // src/app/api/citas/route.ts
 import { NextResponse } from 'next/server';
-import { adminFirestore } from '@/lib/firebase-admin';
+import { getAdminInstances } from '@/lib/firebase-admin';
+//import { adminFirestore } from '@/lib/firebase-admin';
 
 export async function POST(request: Request) {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
+        
     const data = await request.json();
     
     // Validar los datos recibidos

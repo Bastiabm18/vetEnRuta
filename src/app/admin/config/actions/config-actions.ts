@@ -1,7 +1,8 @@
 // actions.ts
 'use server';
 
-import { adminFirestore } from '@/lib/firebase-admin';
+//import { adminFirestore } from '@/lib/firebase-admin';
+import { getAdminInstances } from '@/lib/firebase-admin';
 import { Timestamp } from 'firebase-admin/firestore';
 
 // Tipos para regiones
@@ -59,6 +60,7 @@ export interface CreateServicioData {
 // --- Operaciones CRUD para Regiones ---
 export async function createRegion(data: CreateRegionData): Promise<{ success: boolean; id?: string; error?: string }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const docRef = await adminFirestore.collection('regiones').add({
       nombre: data.nombre,
       createdAt: Timestamp.now()
@@ -72,6 +74,7 @@ export async function createRegion(data: CreateRegionData): Promise<{ success: b
 
 export async function updateRegion(id: string, data: Partial<CreateRegionData>): Promise<{ success: boolean; error?: string }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     await adminFirestore.collection('regiones').doc(id).update({
       ...data,
       updatedAt: Timestamp.now()
@@ -85,6 +88,7 @@ export async function updateRegion(id: string, data: Partial<CreateRegionData>):
 
 export async function deleteRegion(id: string): Promise<{ success: boolean; error?: string }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     await adminFirestore.collection('regiones').doc(id).delete();
     return { success: true };
   } catch (error) {
@@ -95,6 +99,7 @@ export async function deleteRegion(id: string): Promise<{ success: boolean; erro
 
 export async function getAllRegiones(): Promise<Region[]> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const snapshot = await adminFirestore.collection('regiones').orderBy('nombre').get();
     return snapshot.docs.map(doc => ({
       id: doc.id,
@@ -109,6 +114,7 @@ export async function getAllRegiones(): Promise<Region[]> {
 // --- Operaciones CRUD para Comunas ---
 export async function createComuna(data: CreateComunaData): Promise<{ success: boolean; id?: string; error?: string }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const docRef = await adminFirestore.collection('comunas').add({
       nombre: data.nombre,
       // ✨ CAMBIO: Guardar como regionId en Firestore
@@ -124,6 +130,7 @@ export async function createComuna(data: CreateComunaData): Promise<{ success: b
 
 export async function updateComuna(id: string, data: Partial<CreateComunaData>): Promise<{ success: boolean; error?: string }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     // ✨ CAMBIO: Asegurar que se use 'regionId' si está presente en los datos
     const updateData: any = { ...data };
     if (updateData.regionId !== undefined) {
@@ -144,6 +151,7 @@ export async function updateComuna(id: string, data: Partial<CreateComunaData>):
 
 export async function deleteComuna(id: string): Promise<{ success: boolean; error?: string }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     await adminFirestore.collection('comunas').doc(id).delete();
     return { success: true };
   } catch (error) {
@@ -154,6 +162,7 @@ export async function deleteComuna(id: string): Promise<{ success: boolean; erro
 
 export async function getAllComunas(): Promise<Comuna[]> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const snapshot = await adminFirestore.collection('comunas').orderBy('nombre').get();
     return snapshot.docs.map(doc => ({
       id: doc.id,
@@ -171,6 +180,7 @@ export async function getAllComunas(): Promise<Comuna[]> {
 // Operaciones CRUD para Servicios
 export async function createServicio(data: CreateServicioData): Promise<{ success: boolean; id?: string; error?: string }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const docRef = await adminFirestore.collection('servicios').add({
       ...data,
       createdAt: Timestamp.now()
@@ -184,6 +194,7 @@ export async function createServicio(data: CreateServicioData): Promise<{ succes
 
 export async function updateServicio(id: string, data: Partial<CreateServicioData>): Promise<{ success: boolean; error?: string }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     // Asegurar que 'new_price' se elimine si 'en_promocion' es falso
     const dataToUpdate: any = { ...data };
     if (!dataToUpdate.en_promocion) {
@@ -205,6 +216,7 @@ export async function updateServicio(id: string, data: Partial<CreateServicioDat
 
 export async function getAllServicios(): Promise<Servicio[]> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const snapshot = await adminFirestore.collection('servicios').orderBy('nombre').get();
     return snapshot.docs.map(doc => ({
       id: doc.id,
@@ -227,6 +239,7 @@ export async function getAllServicios(): Promise<Servicio[]> {
 
 export async function deleteServicio(id: string): Promise<{ success: boolean; error?: string }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     await adminFirestore.collection('servicios').doc(id).delete();
     return { success: true };
   } catch (error) {
@@ -237,6 +250,7 @@ export async function deleteServicio(id: string): Promise<{ success: boolean; er
 
 export async function getPrecioBase(): Promise<number> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const snapshot = await adminFirestore.collection('precio_base').limit(1).get();
 
     // Si la colección está vacía, no hay precio que obtener.
@@ -264,6 +278,7 @@ export async function getPrecioBase(): Promise<number> {
  */
 export async function updatePrecioBase(nuevoPrecio: number): Promise<{ success: boolean; error?: string }> {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const snapshot = await adminFirestore.collection('precio_base').limit(1).get();
 
     if (snapshot.empty) {

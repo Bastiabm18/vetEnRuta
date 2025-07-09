@@ -1,7 +1,8 @@
 // app/admin/preguntaFrecuente/page.tsx
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { adminAuth } from '@/lib/firebase-admin';
+//import { adminAuth } from '@/lib/firebase-admin';
+import { getAdminInstances } from '@/lib/firebase-admin';
 import AdminLayout from '@/app/components/adminLayout';
 import NuevaPreguntaForm from './NuevaPreguntaForm';
 import ListadoPreguntas from './ListadoPreguntas';
@@ -13,6 +14,7 @@ export default async function PreguntasFrecuentesPage() {
   if (!sessionCookie) return redirect('/login?redirect=/admin/preguntaFrecuente');
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const decodedToken = await adminAuth.verifySessionCookie(sessionCookie, true);
     if (decodedToken.role !== 'admin') return redirect('/unauthorized');
 

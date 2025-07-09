@@ -1,7 +1,8 @@
 // app/adminHorarios/page.tsx
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { adminAuth, adminFirestore } from '@/lib/firebase-admin'; // Asumiendo que firebase-admin está en lib
+//import { adminAuth, adminFirestore } from '@/lib/firebase-admin'; // Asumiendo que firebase-admin está en lib
+import { getAdminInstances } from '@/lib/firebase-admin'; // Asegúrate de que esta función esté definida correctamente
 import AdminLayout from '../../components/adminLayout'; // Asegúrate de que la ruta sea correcta
 import SuperAdminMassScheduleManager from './SuperAdminMassScheduleManager'; // Nuevo componente
 
@@ -14,6 +15,7 @@ export default async function AdminHorariosPage() {
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const decodedToken = await adminAuth.verifySessionCookie(sessionCookie, true);
     // Solo permitir acceso si el rol es 'admin'
     if (decodedToken.role !== 'admin') {

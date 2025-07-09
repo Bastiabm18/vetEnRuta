@@ -1,11 +1,15 @@
 // app/admin/usuarios/page.tsx
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
+
+import { getAdminInstances } from '@/lib/firebase-admin';
+//import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
 import AdminLayout from '../../components/adminLayout';
 import UserTable from './UserTable';
 
 async function getUsers() {
+  
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
   const usersSnapshot = await adminFirestore.collection('users').get();
   return usersSnapshot.docs.map(doc => {
     const data = doc.data();
@@ -28,6 +32,8 @@ export default async function UsuariosPage() {
   if (!sessionCookie) return redirect('/login?redirect=/admin/usuarios');
 
   try {
+
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const decodedToken = await adminAuth.verifySessionCookie(sessionCookie, true);
     if (decodedToken.role !== 'admin') return redirect('/unauthorized');
     
@@ -39,6 +45,8 @@ export default async function UsuariosPage() {
       </AdminLayout>
     );
   } catch (error) {
+    
+        const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     console.error('Error en página de usuarios:', error);
       const decodedToken = await adminAuth.verifySessionCookie(sessionCookie, true);
     if (decodedToken.role == 'vet') return redirect('/admin');

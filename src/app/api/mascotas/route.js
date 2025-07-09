@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
+
+import { getAdminInstances } from '@/lib/firebase-admin';
+//import { adminAuth, adminFirestore } from '@/lib/firebase-admin';
 import * as admin from 'firebase-admin'; // Importar el objeto admin
 
 async function getUserIdFromCookies(request) {
@@ -12,6 +14,8 @@ async function getUserIdFromCookies(request) {
   }
 
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
+        
     const decodedToken = await adminAuth.verifySessionCookie(sessionCookie, true);
     return decodedToken.uid; // La ID del usuario de Firebase es 'uid'
   } catch (error) {
@@ -23,6 +27,8 @@ async function getUserIdFromCookies(request) {
 // GET para OBTENER todas las mascotas del usuario
 export async function GET(request) {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
+    
     const userId = await getUserIdFromCookies(request);
     if (!userId) {
       return NextResponse.json(
@@ -67,6 +73,8 @@ export async function GET(request) {
 // POST para CREAR una nueva mascota
 export async function POST(request) {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
+        
     const userId = await getUserIdFromCookies(request);
     if (!userId) {
       return NextResponse.json(
@@ -107,6 +115,8 @@ export async function POST(request) {
 // PUT para ACTUALIZAR una mascota existente (petId como searchParam)
 export async function PUT(request) {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
+        
     const userId = await getUserIdFromCookies(request);
     const { searchParams } = new URL(request.url);
     const petId = searchParams.get('petId');
@@ -161,6 +171,8 @@ export async function PUT(request) {
 // DELETE para ELIMINAR una mascota (petId como searchParam)
 export async function DELETE(request) {
   try {
+    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
+        
     const userId = await getUserIdFromCookies(request);
     const { searchParams } = new URL(request.url);
     const petId = searchParams.get('petId');
