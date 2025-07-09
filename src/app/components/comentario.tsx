@@ -10,8 +10,8 @@ import {
   orderBy, 
   limit 
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
-
+//import { db } from "@/lib/firebase";
+import { getFirebaseClientInstances } from "@/lib/firebase";
 interface Comentario {
   id: string;
   calificacion: number;
@@ -32,6 +32,7 @@ export default function Comentarios() {
   useEffect(() => {
     const fetchComentarios = async () => {
       try {
+        const { db } = getFirebaseClientInstances();
         setLoading(true);
         setError(null);
         

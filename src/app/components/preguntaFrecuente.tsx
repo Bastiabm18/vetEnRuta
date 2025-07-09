@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+//import { db } from "@/lib/firebase";
+import { getFirebaseClientInstances } from "@/lib/firebase";
 
 interface PreguntaFrecuente {
   id: string;
@@ -21,6 +22,7 @@ export default function PreguntasFrecuentes() {
   useEffect(() => {
     const fetchPreguntas = async () => {
       try {
+        const { db } = getFirebaseClientInstances();
         setLoading(true);
         setError(null);
         

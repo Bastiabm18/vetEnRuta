@@ -11,7 +11,8 @@ import {
   onAuthStateChanged,
   User,
 } from "firebase/auth";
-import { auth, db } from "../../lib/firebase";
+//import { auth, db } from "../../lib/firebase";
+import { getFirebaseClientInstances } from "@/lib/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { FiMenu, FiUser } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
@@ -59,6 +60,7 @@ export default function Nav() {
   const router = useRouter();
 
   useEffect(() => {
+    const { db,auth } = getFirebaseClientInstances();
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setLoading(true);
       if (user) {
@@ -134,6 +136,8 @@ export default function Nav() {
   const handleSignInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     try {
+      
+    const { db,auth } = getFirebaseClientInstances();
       await signInWithPopup(auth, provider);
     } catch (error) {
       console.error("Error during sign in with Google:", error);
@@ -142,6 +146,8 @@ export default function Nav() {
 
   const handleSignOut = async () => {
     try {
+      
+    const { db,auth } = getFirebaseClientInstances();
       await signOut(auth);
     } catch (error) {
       console.error("Error during sign out:", error);

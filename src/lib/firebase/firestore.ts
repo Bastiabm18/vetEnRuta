@@ -1,8 +1,10 @@
 // src/lib/firebase/firestore.ts
-import { db } from "../firebase";
+//import { db } from "../firebase";
+import { getFirebaseClientInstances } from "@/lib/firebase";
 import { doc, runTransaction, collection, query, where, getDocs, orderBy } from 'firebase/firestore'; // Asegúrate de importar orderBy si no estaba
 
 export const reserveTimeSlot = async (horaId: string): Promise<boolean> => {
+  const { db } = getFirebaseClientInstances();
   const horaRef = doc(db, 'horas_disponibles', horaId);
   try {
     await runTransaction(db, async (transaction) => {
@@ -21,6 +23,7 @@ export const reserveTimeSlot = async (horaId: string): Promise<boolean> => {
 
 export const fetchRegiones = async () => {
   try {
+    const { db } = getFirebaseClientInstances();
     const snapshot = await getDocs(collection(db, 'regiones'));
     return snapshot.docs.map(doc => ({ id: doc.id, nombre: doc.data().nombre }));
   } catch (error) {
@@ -31,6 +34,7 @@ export const fetchRegiones = async () => {
 
 export const fetchComunasByRegion = async (regionId: string) => {
   try {
+    const { db } = getFirebaseClientInstances();
     const q = query(
       collection(db, 'comunas'),
       where('regionId', '==', regionId) // CAMBIO: Usar 'regionId' para consistencia
@@ -45,6 +49,7 @@ export const fetchComunasByRegion = async (regionId: string) => {
 
 export const fetchTimeSlots = async (comunaId: string, fecha: string) => {
   try {
+    const { db } = getFirebaseClientInstances();
     const q = query(
       collection(db, 'horas_disponibles'),
       where('comunaIdsFlat', 'array-contains', comunaId), // CAMBIO CLAVE: Usa el nuevo campo para la búsqueda
@@ -64,6 +69,7 @@ export const fetchTimeSlots = async (comunaId: string, fecha: string) => {
 
 export const fetchServices = async () => {
   try {
+    const { db } = getFirebaseClientInstances();
     const snapshot = await getDocs(collection(db, 'servicios'));
     return snapshot.docs.map(doc => ({
       id: doc.id,
