@@ -407,9 +407,9 @@ export default function ConsultasManager() {
                   <li key="pv1" className="text-gray-600 flex items-center justify-between">
                         <span className='flex flex-row items-center'>
                         <FaPaw className="mr-2 text-teal-500 text-xs"/>
-                        Precio visita: ${cita.precio_base.toLocaleString('es-CL')}
+                        Precio visita ${cita.precio_base.toLocaleString('es-CL')}
                         </span>
-                      <span className="text-gray-900">
+                      <span className="ml-2 text-xs text-gray-500 text-right">
                      Pago veterinario: ${cita.precio_base_vet.toLocaleString('es-CL')}
                       </span>
                     
@@ -437,22 +437,9 @@ export default function ConsultasManager() {
                      {/*NUEVA SECCION PAGO VETERINARIO*/}
                     {cita.precio_base_vet !== undefined && cita.pago_vet !== undefined && (
                       <div className="p-4 rounded-md bg-blue-vet-light border border-blue-vet mb-4">
-                        <p className='text-lg font-bold text-gray-600 mb-2'>
-                          Resumen Veterinario
-                        </p>
-                        <p className="text-base font-semibold text-gray-700 flex justify-between items-center">
-                          <span>Pago servicios:</span>
-                          <span className="text-gray-900">${cita.pago_vet.toLocaleString('es-CL')}</span>
-                        
-                        </p>
-                        <p className="text-base font-semibold text-gray-700 flex justify-between items-center">
-                           <span>Pago visita :</span>
-                          <span className="text-gray-900">${cita.precio_base_vet.toLocaleString('es-CL')}</span>
-                
-                        </p>
-                        <p className="text-base font-semibold text-gray-700 flex justify-between items-center">
-                          <span>Total Veterinario:</span>
-                       <span className="text-gray-900">$
+                        <p className="text-base font-semibold bt-2 text-gray-700 flex justify-between items-center">
+                          <span>Pago Veterinario:</span>
+                       <span className="text-gray-900">
                          ${(Number(cita.pago_vet) + Number(cita.precio_base_vet)).toLocaleString('es-CL')}
                        </span>
                         </p>
