@@ -13,15 +13,21 @@ export function PrecioVisita() {
   const [message, setMessage] = useState<string>('');
 
   // Carga el precio desde Firestore cuando el componente se monta
-  useEffect(() => {
-    async function fetchPrecio() {
-      setIsLoading(true);
-      const precioActual = await getPrecioBase();
-      setPrecio(precioActual);
-      setIsLoading(false);
-    }
-    fetchPrecio();
-  }, []);
+useEffect(() => {
+  async function fetchPrecios() {
+    setIsLoading(true);
+    // Llama a la función que ahora devuelve un objeto
+    const precios = await getPrecioBase();
+    
+    // Usa los valores del objeto para actualizar los estados
+    setPrecio(precios.precio);
+    setPrecioVet(precios.precioVet); // Línea corregida y completada
+    
+    setIsLoading(false);
+  }
+  
+  fetchPrecios();
+}, []);
 
   // Maneja el envío del formulario
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

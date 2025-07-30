@@ -248,25 +248,28 @@ export async function deleteServicio(id: string): Promise<{ success: boolean; er
   }
 }
 
-export async function getPrecioBase(): Promise<number> {
+export async function getPrecioBase(): Promise<{ precio: number; precioVet: number; }> {
   try {
-    const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
+    // Tu lógica para obtener las instancias de admin...
+    const { firestore: adminFirestore } = getAdminInstances();
     const snapshot = await adminFirestore.collection('precio_base').limit(1).get();
 
-    // Si la colección está vacía, no hay precio que obtener.
     if (snapshot.empty) {
       console.log('No se encontró ningún documento en la colección precio_base.');
-      return 0;
+      return { precio: 0, precioVet: 0 }; // Devuelve un objeto con valores por defecto
     }
 
-    // Usamos el primer documento que encontramos.
-    const doc = snapshot.docs[0];
-    // Leemos el campo "precio_base" como se ve en tu imagen.
-    return doc.data().precio_base as number, doc.data().precio_vet as number ;
+    const doc = snapshot.docs[0].data();
+    
+    // Devuelve un solo objeto con ambas propiedades
+    return {
+      precio: doc.precio_base as number,
+      precioVet: doc.precio_vet as number
+    };
 
   } catch (error) {
-    console.error('Error obteniendo el precio base:', error);
-    return 0;
+    console.error('Error obteniendo los precios:', error);
+    return { precio: 0, precioVet: 0 }; // Devuelve un objeto en caso de error
   }
 }
 
@@ -294,6 +297,7 @@ export async function updatePrecioBase(nuevoPrecio: number, precio_vet: number )
       const docId = snapshot.docs[0].id;
       await adminFirestore.collection('precio_base').doc(docId).update({
         precio_base: nuevoPrecio,
+        precio_vet: precio_vet,
         updatedAt: Timestamp.now()
       });
     }
