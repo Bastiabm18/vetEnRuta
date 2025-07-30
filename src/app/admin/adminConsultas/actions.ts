@@ -490,6 +490,7 @@ export async function getAvailableServices(): Promise<{ services?: Servicio[]; e
       precio: doc.data().precio,
       en_promocion: doc.data().en_promocion || false,
       new_price: doc.data().new_price,
+      precio_vet: doc.data().precio_vet,
     })) as Servicio[];
 
     return { services };

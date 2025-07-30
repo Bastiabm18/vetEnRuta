@@ -423,7 +423,7 @@ export default function ConsultasManager() {
                 )}
                      {/*NUEVA SECCION PAGO VETERINARIO*/}
                     {cita.pago_vet !== undefined && (
-                      <div className="p-4 rounded-md bg-gray-50 border border-gray-200 mb-4">
+                      <div className="p-4 rounded-md bg-blue-vet-light border border-blue-vet mb-4">
                         <p className="text-base font-semibold text-gray-700 flex justify-between items-center">
                           <span>Pago Veterinario:</span>
                           <span className="text-gray-900">${cita.pago_vet.toLocaleString('es-CL')}</span>
@@ -431,9 +431,9 @@ export default function ConsultasManager() {
                       </div>
                     )}
                     {cita.precio_base_vet !== undefined && (
-                  <div className="p-4 rounded-md bg-gray-50 border border-gray-200 mb-4">
+                  <div className="p-4 rounded-md bg-blue-vet-light border border-blue-vet mb-4">
                     <p className="text-base font-semibold text-gray-700 flex justify-between items-center">
-                      <span>Precio visita:</span>
+                      <span>Pagp visita vet:</span>
                       <span className="text-gray-900">${cita.precio_base_vet.toLocaleString('es-CL')}</span>
                     </p>
                   </div>
