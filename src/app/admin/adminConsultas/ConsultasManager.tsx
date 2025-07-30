@@ -439,7 +439,7 @@ export default function ConsultasManager() {
                         </p>
                         <p className="text-base font-semibold text-gray-700 flex justify-between items-center">
                           <span>Total Veterinario:</span>
-                          <span className="text-gray-900">${(cita.pago_vet + cita.precio_base_vet).toLocaleString('es-CL')}</span>
+                       <span className="text-gray-900">${(cita.pago_vet + cita.precio_base_vet).toLocaleString('es-CL')}</span>
                         </p>
                       </div>
                     )}
