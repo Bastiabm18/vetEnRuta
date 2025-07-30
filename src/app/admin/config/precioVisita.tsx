@@ -7,6 +7,7 @@ import { getPrecioBase, updatePrecioBase } from './actions/config-actions';
 
 export function PrecioVisita() {
   const [precio, setPrecio] = useState<number>(0);
+  const [precioVet, setPrecioVet] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
@@ -29,7 +30,7 @@ export function PrecioVisita() {
     setMessage('');
 
     // Llama a la server action para actualizar el precio
-    const result = await updatePrecioBase(precio);
+    const result = await updatePrecioBase(precio, precioVet);
 
     if (result.success) {
       setMessage('¡Precio actualizado con éxito!');
@@ -65,6 +66,27 @@ export function PrecioVisita() {
               name="precio_base"
               value={precio}
               onChange={(e) => setPrecio(Number(e.target.value))}
+              className="block w-full rounded-md border-gray-300 text-black pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              placeholder="0"
+              min="0"
+              required
+            />
+          </div>
+        </div>
+        <div>
+          <label htmlFor="precio_base_vet" className="block text-sm font-medium text-gray-700">
+            % Precio basico de visita Vet ($)
+          </label>
+          <div className="mt-1 relative rounded-md shadow-sm">
+             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <span className="text-gray-500 sm:text-sm">$</span>
+             </div>
+            <input
+              type="number"
+              id="precio_base_vet"
+              name="precio_base_vet"
+              value={precioVet}
+              onChange={(e) => setPrecioVet(Number(e.target.value))}
               className="block w-full rounded-md border-gray-300 text-black pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               placeholder="0"
               min="0"

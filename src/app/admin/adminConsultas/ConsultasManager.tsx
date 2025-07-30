@@ -430,6 +430,14 @@ export default function ConsultasManager() {
                         </p>
                       </div>
                     )}
+                    {cita.precio_base_vet !== undefined && (
+                  <div className="p-4 rounded-md bg-gray-50 border border-gray-200 mb-4">
+                    <p className="text-base font-semibold text-gray-700 flex justify-between items-center">
+                      <span>Precio visita:</span>
+                      <span className="text-gray-900">${cita.precio_base_vet.toLocaleString('es-CL')}</span>
+                    </p>
+                  </div>
+                )}
                 {/* Sección para mostrar el Recargo por Comuna */}
                 {cita.locationData?.costoAdicionalComuna !== null && cita.locationData?.costoAdicionalComuna !== undefined && cita.locationData.costoAdicionalComuna > 0 && (
                   <div className="p-4 rounded-md bg-gray-50 border border-gray-200 mb-4">

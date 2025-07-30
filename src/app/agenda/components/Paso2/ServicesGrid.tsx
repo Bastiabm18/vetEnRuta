@@ -134,7 +134,7 @@ export const ServicesGrid = () => {
     setShowConfirmation(true);
     setTimeout(() => {
       setShowConfirmation(false);
-    }, 2000);
+    }, 4000);
   };
 
   // Maneja el cambio en el input de búsqueda
@@ -192,7 +192,7 @@ export const ServicesGrid = () => {
                       onClick={() => toggleService(mascota.id, service)}
                       className={`p-4 border rounded-lg cursor-pointer relative ${ // 'relative' para posicionar la etiqueta de promoción
                         selectedServicesLocal[mascota.id]?.some(s => s.id === service.id)
-                          ? 'border-green-vet bg-green-50' // Estilo si el servicio está seleccionado
+                          ? 'border-green-vet bg-green-vet' // Estilo si el servicio está seleccionado
                           : 'hover:border-green-vet' // Estilo al pasar el ratón
                       }`}
                     >

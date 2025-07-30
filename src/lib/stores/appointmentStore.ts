@@ -52,6 +52,7 @@ interface AppointmentStore {
     estacionamiento?: string | null; // <--- Aseguramos que sea string | null
   };
   precio_base?: number; // <--- Aseguramos que sea un número
+  precio_base_vet?: number; // <--- Nuevo campo opcional para el precio del veterinario
   // Actions
   
   setCurrentStep: (step: number) => void;
@@ -65,6 +66,7 @@ interface AppointmentStore {
   removeServiceFromMascota: (mascotaId: string, serviceId: string) => void;
   setEstado: (newEstado: boolean) => void;
   setPrecioBase: (precio: number) => void;
+  setPrecioBaseVet: (precio_base_vet: number) => void;
 }
 
 export const useAppointmentStore = create<AppointmentStore>((set) => ({
@@ -95,6 +97,7 @@ export const useAppointmentStore = create<AppointmentStore>((set) => ({
     estacionamiento: null, // <--- Inicializa como null para ser consistente con string | null
   },
   precio_base: 0, // <--- Aseguramos que sea un número
+  precio_base_vet: 0, // <--- Nuevo campo opcional para el precio del veterinario
   setCurrentStep: (step) => set({ currentStep: step }),
   setLocationData: (data) => set((state) => ({
     locationData: { ...state.locationData, ...data }
@@ -140,6 +143,7 @@ export const useAppointmentStore = create<AppointmentStore>((set) => ({
       estacionamiento: null, // <--- Resetear también a null
     },
     precio_base: 0, // <--- Aseguramos que sea un número
+    precio_base_vet: 0, // <--- Nuevo campo opcional para el veterinario
     estado: false
   }),
   addServiceToMascota: (mascotaId, service) => set((state) => ({
@@ -160,4 +164,5 @@ export const useAppointmentStore = create<AppointmentStore>((set) => ({
     estado: newEstado
   })),
   setPrecioBase: (precio) => set({ precio_base: precio }), // <--- ¡IMPLEMENTACIÓN DE LA NUEVA ACCIÓN!
+  setPrecioBaseVet: (precio_base_vet) => set({ precio_base_vet }), //
 }));

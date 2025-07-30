@@ -262,7 +262,7 @@ export async function getPrecioBase(): Promise<number> {
     // Usamos el primer documento que encontramos.
     const doc = snapshot.docs[0];
     // Leemos el campo "precio_base" como se ve en tu imagen.
-    return doc.data().precio_base as number;
+    return doc.data().precio_base as number, doc.data().precio_vet as number ;
 
   } catch (error) {
     console.error('Error obteniendo el precio base:', error);
@@ -276,7 +276,7 @@ export async function getPrecioBase(): Promise<number> {
  * @param {number} nuevoPrecio - El nuevo precio a guardar.
  * @returns {Promise<{ success: boolean; error?: string }>}
  */
-export async function updatePrecioBase(nuevoPrecio: number): Promise<{ success: boolean; error?: string }> {
+export async function updatePrecioBase(nuevoPrecio: number, precio_vet: number ): Promise<{ success: boolean; error?: string }> {
   try {
     const { auth: adminAuth, firestore: adminFirestore } = getAdminInstances();
     const snapshot = await adminFirestore.collection('precio_base').limit(1).get();
@@ -286,6 +286,7 @@ export async function updatePrecioBase(nuevoPrecio: number): Promise<{ success: 
       // Firestore le asignará un ID aleatorio, replicando tu estructura.
       await adminFirestore.collection('precio_base').add({
         precio_base: nuevoPrecio,
+        precio_vet: precio_vet,
         createdAt: Timestamp.now()
       });
     } else {

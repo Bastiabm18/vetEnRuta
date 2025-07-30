@@ -123,25 +123,7 @@ export const Summary = () => {
         </div>
 
         </div>
-                {(precio_base ?? 0) > 0 && (
-          <div className="bg-gray-50 p-3 rounded-lg space-y-2 text-black">
-            <p className='text-right'>
-              <span className="font-medium text-right">Cosulta A Domicilio:</span>{' '}
-              ${(precio_base ?? 0).toLocaleString('es-CL')}
-            </p>
-          </div>
-        )}
-        
-        {/* NUEVO: Mostrar el costo adicional por comuna si está disponible y es mayor que 0 */}
-        {locationData.costoAdicionalComuna !== null && locationData.costoAdicionalComuna !== undefined && locationData.costoAdicionalComuna > 0 && (
-          <div className="bg-gray-50 p-3 rounded-lg space-y-2 text-black">
-            <p className='text-right'>
-              <span className="font-medium text-right">Recargo Comuna Aledaña:</span>{' '}
-              ${locationData.costoAdicionalComuna.toLocaleString('es-CL')}
-            </p>
-          </div>
-        )}
-
+           
         <div>
           <h4 className="font-medium text-black mb-2">Tus mascotas y servicios</h4>
           <div className="space-y-3">
@@ -173,6 +155,26 @@ export const Summary = () => {
             ))}
           </div>
         </div>
+
+             {(precio_base ?? 0) > 0 && (
+          <div className="bg-gray-50 p-3 rounded-lg space-y-2 text-black">
+            <p className='text-right'>
+              <span className="font-medium text-right">Cosulta A Domicilio:</span>{' '}
+              ${(precio_base ?? 0).toLocaleString('es-CL')}
+            </p>
+          </div>
+        )}
+        
+        {/* NUEVO: Mostrar el costo adicional por comuna si está disponible y es mayor que 0 */}
+        {locationData.costoAdicionalComuna !== null && locationData.costoAdicionalComuna !== undefined && locationData.costoAdicionalComuna > 0 && (
+          <div className="bg-gray-50 p-3 rounded-lg space-y-2 text-black">
+            <p className='text-right'>
+              <span className="font-medium text-right">Recargo Comuna Aledaña:</span>{' '}
+              ${locationData.costoAdicionalComuna.toLocaleString('es-CL')}
+            </p>
+          </div>
+        )}
+
 
    
 

@@ -150,19 +150,20 @@ export const TimeSlotPicker = () => {
                 </h4>
                 <div className="grid grid-cols-3 gap-2">
                   {data.slots.map((slot) => (
-                    <button
-                      key={slot.id}
-                      onClick={() => handleTimeSlotSelect(slot)}
-                      // CAMBIO AQUÍ: `reserving` eliminado, solo se deshabilita si no está disponible
-                      disabled={!slot.disponible} 
-                      className={`p-3 rounded-lg border text-black ${
-                        locationData.hora === slot.hora && locationData.veterinario?.id === slot.veterinario.id
-                          ? 'bg-green-vet text-white'
-                          : slot.disponible
-                            ? 'hover:border-green-vet'
-                            : 'opacity-50 cursor-not-allowed'
-                      }`}
-                    >
+                     <button
+                      key={slot.id}
+                      onClick={() => handleTimeSlotSelect(slot)}
+                      // Se elimina el atributo `disabled`. El estilo ahora se controla con `className`.
+                      className={`p-3 rounded-lg border ${
+                        locationData.hora === slot.hora && locationData.veterinario?.id === slot.veterinario.id
+                          ? 'bg-green-vet text-white' // Slot seleccionado
+                          : slot.disponible
+                            ? 'text-black hover:border-green-vet' // Slot disponible
+                              // --- INICIO DEL CAMBIO ---
+                            : 'bg-gray-400 bg-opacity-40 text-white cursor-not-allowed' // Slot no disponible
+                              // --- FIN DEL CAMBIO ---
+                      }`}
+                    >
                       {slot.hora}
                       
                       {slot.disponible && slot.id_usuario && (

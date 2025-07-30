@@ -76,7 +76,8 @@ export interface Cita {
   montoTotal?: number;
   veterinario?: string; // Nombre del veterinario asignado a la cita
   precio_base?: number; // Para almacenar el precio base de la cita, si aplica
-  pago_vet?:number
+  pago_vet?:number;
+  precio_base_vet?:number
 
 }
 
@@ -231,6 +232,7 @@ export async function getCitaById(citaId: string): Promise<{ cita?: Cita; error?
       finalizada: data.finalizada ?? false,
       montoTotal: calculatedTotalAmount ?? 0,
       precio_base: data.precio_base ?? 0, // Incluye el precio base si está disponible
+      precio_base_vet: data.precio_base_vet?? 0,
       fechaCreacion: formattedFechaCreacion,
       locationData: {
         ...data.locationData,
@@ -392,6 +394,7 @@ export async function getCitas(
         finalizada: data.finalizada ?? false,
         montoTotal: calculatedTotalAmount ?? 0,
         precio_base: data.precio_base ?? 0, 
+        precio_base_vet: data.precio_base_vet ?? 0,
         pago_vet: calculatedTotalAmountVet ?? 0, // Monto total para veterinarios
         fechaCreacion: formattedFechaCreacion,
         locationData: {
@@ -587,6 +590,7 @@ export async function createCita(citaData: Omit<Cita, 'id' | 'fechaCreacion' | '
     const docRef = await adminFirestore.collection('citas').add({
       ...citaData,
       precio_base: citaData.precio_base ?? 0, 
+      precio_base_vet: citaData.precio_base_vet ?? 0,
       locationData: {
         ...citaData.locationData,
         veterinario: { id: user.id, nombre: user.nombre }, // Asigna el veterinario logueado a la cita

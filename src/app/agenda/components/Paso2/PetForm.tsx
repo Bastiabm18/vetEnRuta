@@ -1,9 +1,10 @@
 "use client"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAppointmentStore } from '@/lib/stores/appointmentStore';
 import { CustomButton } from '../shared/CustomButton';
 import { ValidationMessage } from '../shared/ValidationMessage';
+import { set } from 'date-fns';
 
 export const PetForm = () => {
   // Asegúrate de que addMascota se use sin la propiedad 'servicios' en la llamada inicial
@@ -16,8 +17,17 @@ export const PetForm = () => {
   const [sexo, setSexo] = useState<'macho entero'|'macho castrado' | 'hembra entera' | 'hembra esterilizada'>('macho entero');
   const [error, setError] = useState('');
   const [showConfirmation, setShowConfirmation] = useState(false); // New state for confirmation message
+  const [showMesagge, setShowMesagge] = useState(false); // New state for confirmation message
 
   const handleAddPet = () => {
+
+       // --- INICIO DEL CAMBIO 1 ---
+    // Se añade una validación para asegurar que no se agregue más de una mascota.
+    if (mascotas.length >= 1) {
+      setError('Solo puedes registrar una mascota por cita.');
+      return;
+    }
+    // --- FIN DEL CAMBIO 1 ---
     if (!nombre.trim()) {
       setError('Por favor ingresa un nombre para tu mascota');
       return;
@@ -38,8 +48,15 @@ export const PetForm = () => {
     setShowConfirmation(true); // Show the confirmation message
     setTimeout(() => {
       setShowConfirmation(false); // Hide the confirmation message after 2 seconds
-    }, 2000);
+    }, 4000);
   };
+  
+   useEffect(() => {
+   setShowMesagge(true); // Reset the message visibility on mount
+    setTimeout(() => {
+      setShowMesagge(false); // Show the message after 2 seconds
+    }, 5000);
+  }, []);
 
   return (
     <motion.div
@@ -108,11 +125,25 @@ export const PetForm = () => {
 
         <CustomButton
           onClick={handleAddPet}
-          className="w-full md:w-auto"
+          className={`w-full md:w-auto ${ mascotas.length >= 1 ? 'bg-red-500 bg-opacity-40 text-white' : '' }`}
+                disabled={mascotas.length >= 1}
         >
           Agregar Mascota
         </CustomButton>
 
+        {showMesagge && ( // Conditionally render the message
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="mt-4 p-3 bg-green-100 text-green-700 rounded-lg text-center"
+          >
+           El precio de la consulta ya esta agregado.
+           <br /> 
+           Solo debes agregar los servicios que requiera tu mascota.
+              </motion.div>
+        )}
         {showConfirmation && ( // Conditionally render the message
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -122,6 +153,7 @@ export const PetForm = () => {
             className="mt-4 p-3 bg-green-100 text-green-700 rounded-lg text-center"
           >
             ¡Mascota agregada correctamente!
+            Recuerda que solo puedes registrar una mascota por cita.
           </motion.div>
         )}
       </div>

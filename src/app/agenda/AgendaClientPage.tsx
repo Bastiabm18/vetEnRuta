@@ -24,7 +24,7 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { reserveTimeSlot } from '@/lib/firebase/firestore'; 
 
 export default function AgendaPage() {
-  const { currentStep, setCurrentStep,setPrecioBase, locationData, mascotas, datosDueño,precio_base, resetStore } = useAppointmentStore();
+  const { currentStep, setCurrentStep,setPrecioBase,setPrecioBaseVet, locationData, mascotas, datosDueño,precio_base, precio_base_vet,resetStore } = useAppointmentStore();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isLoadingPage, setIsLoadingPage] = useState(true);
   const [isSavingAppointment, setIsSavingAppointment] = useState(false);
@@ -44,11 +44,14 @@ export default function AgendaPage() {
           const docSnap = querySnapshot.docs[0]; 
           const configData = docSnap.data();
           const basePrice = configData.precio_base;
+          const precio_base_vet = configData.precio_vet;
 
           // Verificamos que el precio sea un número antes de actualizar el store
           if (typeof basePrice === 'number') {
             setPrecioBase(basePrice); // ¡Aquí actualizamos el store!
+            setPrecioBaseVet(precio_base_vet); // Actualizamos el precio del veterinario
             console.log('Precio base cargado desde tu configuración de Firestore:', basePrice);
+            console.log('Precio base del veterinario cargado desde tu configuración de Firestore:', precio_base_vet);
           } else {
             console.warn("El campo 'precio_base' no es un número o no existe en el documento.");
           }
@@ -66,7 +69,7 @@ export default function AgendaPage() {
     // Llamamos a la función al montar el componente
     fetchInitialData();
 
-  }, [setPrecioBase]); // La dependencia se mantiene igual
+  }, [setPrecioBase, setPrecioBaseVet]); // La dependencia se mantiene igual
 
   const handleNextStep = () => {
     if (validateCurrentStep()) {
@@ -145,7 +148,8 @@ export default function AgendaPage() {
         estado: false,
         finalizada: false,
         montoTotal: 0,
-        precio_base: precio_base
+        precio_base: precio_base,
+        precio_base_vet: precio_base_vet, // Aseguramos que se guarde el precio del veterinario
       });
 
       resetStore();
