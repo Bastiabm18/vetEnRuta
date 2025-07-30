@@ -64,13 +64,14 @@ export default function ConfirmationClientContent() { // <-- ¡NOMBRE DEL COMPON
 
   const calculatePetServicesTotal = (servicios?: ServicioConfirmacionFirestore[]) => {
     if (!servicios || servicios.length === 0) return 0;
-    return servicios.reduce((subtotal, service) => subtotal + (service.precio || 0), 0);
+    let precio = appointment?.precio_base || 0; // Aseguramos que precio_base esté definido
+    return precio += servicios.reduce((subtotal, service) => subtotal + (service.precio || 0), 0);
   };
 
   const calculateTotalAppointment = () => {
     let total = 0;
     appointment?.mascotas?.forEach(mascota => {
-      total = appointment.precio_base || 0; 
+     
       total += calculatePetServicesTotal(mascota.servicios);
     });
     if (appointment?.locationData?.costoAdicionalComuna !== null && appointment?.locationData?.costoAdicionalComuna !== undefined) {
@@ -283,6 +284,17 @@ export default function ConfirmationClientContent() { // <-- ¡NOMBRE DEL COMPON
                   <p className="font-semibold text-gray-900">
                     {mascota.nombre || 'Mascota sin nombre'} ({mascota.tipo || 'Sin tipo'})
                   </p>
+             {appointment?.precio_base && appointment.precio_base > 0 && (
+            <div className="mt-6 text-right">
+                <li className="flex text-sm justify-between items-center pr-4">
+                   <span> Precio Visita:</span>
+                   <span className="font-medium">${appointment.precio_base.toLocaleString('es-CL')}</span>
+
+                </li>
+            </div>
+              )
+            
+              }
                   {mascota.servicios && mascota.servicios.length > 0 ? (
                     <ul className="list-disc list-inside mt-2 text-sm text-gray-800 space-y-1">
                       {mascota.servicios.map((servicio, svcIndex) => (
@@ -315,15 +327,7 @@ export default function ConfirmationClientContent() { // <-- ¡NOMBRE DEL COMPON
                 </p>
             </div>
         )}
-        {appointment?.precio_base && appointment.precio_base > 0 && (
-            <div className="mt-6 text-right">
-                <p className="text-base font-semibold text-gray-900">
-                    Precio Visita: ${appointment.precio_base.toLocaleString('es-CL')}
-                </p>
-            </div>
-        )
 
-        }
 
         <div className="mt-8 text-right">
           <p className="text-xl font-bold text-gray-900">

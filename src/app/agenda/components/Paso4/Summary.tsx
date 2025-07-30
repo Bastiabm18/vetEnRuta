@@ -38,15 +38,22 @@ export const Summary = () => {
   }, []); // El array vacío asegura que se ejecuta solo una vez al montar
 
   // Calcula el total de servicios para una mascota específica
-  const calculatePetServicesTotal = (petId: string) => {
-    const pet = mascotas.find(p => p.id === petId);
-    if (!pet) return 0;
-    return pet.servicios.reduce((subtotal, service) => subtotal + service.precio, 0);
-  };
+const calculatePetServicesTotal = (petId: string) => {
+  const pet = mascotas.find(p => p.id === petId);
+  if (!pet) return 0;
+
+  // 1. El subtotal para esta mascota comienza con el precio base de la visita.
+  let subtotal = precio_base || 0;
+
+  // 2. Se suma el precio de todos los servicios seleccionados para esa mascota.
+  subtotal += pet.servicios.reduce((serviceSubtotal, service) => serviceSubtotal + service.precio, 0);
+
+  return subtotal;
+};
 
   // Calcula el total general de todos los servicios de la cita
   const calculateTotalAppointment = () => {
-    let total = precio_base || 0;
+    let total = 0;
     mascotas.forEach(pet => {
       total += calculatePetServicesTotal(pet.id);
     });
@@ -127,11 +134,21 @@ export const Summary = () => {
         <div>
           <h4 className="font-medium text-black mb-2">Tus mascotas y servicios</h4>
           <div className="space-y-3">
+
+
             {mascotas.map((mascota) => (
               <div key={mascota.id} className="bg-gray-50 p-4 rounded-lg">
                 <p className="font-medium text-black">
                   {mascota.nombre} ({mascota.tipo})
                 </p>
+                    <ul className="list-disc list-inside mt-2 text-black space-y-1">
+                   
+                      <li key="aa" className="flex justify-between items-center pr-4">
+                        <span>Consulta a domicilio</span>
+                        <span className="font-medium">${(precio_base ?? 0).toLocaleString('es-CL')}</span>
+                      </li>
+                  
+                  </ul>
                 {mascota.servicios.length > 0 ? (
                   <ul className="list-disc list-inside mt-2 text-black space-y-1">
                     {mascota.servicios.map((servicio) => (
@@ -156,14 +173,7 @@ export const Summary = () => {
           </div>
         </div>
 
-             {(precio_base ?? 0) > 0 && (
-          <div className="bg-gray-50 p-3 rounded-lg space-y-2 text-black">
-            <p className='text-right'>
-              <span className="font-medium text-right">Cosulta A Domicilio:</span>{' '}
-              ${(precio_base ?? 0).toLocaleString('es-CL')}
-            </p>
-          </div>
-        )}
+          
         
         {/* NUEVO: Mostrar el costo adicional por comuna si está disponible y es mayor que 0 */}
         {locationData.costoAdicionalComuna !== null && locationData.costoAdicionalComuna !== undefined && locationData.costoAdicionalComuna > 0 && (

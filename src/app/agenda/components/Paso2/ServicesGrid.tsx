@@ -149,7 +149,7 @@ export const ServicesGrid = () => {
       className="space-y-6"
     >
       <div className='w-full bg-green-vet rounded-lg bg-opacity-70 p-2'>
-        <h3 className="text-lg font-semibold text-black">Selecciona servicios para tus mascotas</h3>
+        <h3 className="text-lg font-semibold text-black">Selecciona servicios para tu mascota</h3>
         <h5 className="text-sm text-black">No te preocupes si no lo tienes claro<br></br>Esto se puede modificar durante la consulta presencial.</h5>
       </div>
 

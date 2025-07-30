@@ -433,7 +433,7 @@ export default function ConsultasManager() {
                     {cita.precio_base_vet !== undefined && (
                   <div className="p-4 rounded-md bg-blue-vet-light border border-blue-vet mb-4">
                     <p className="text-base font-semibold text-gray-700 flex justify-between items-center">
-                      <span>Pagp visita vet:</span>
+                      <span>Pago visita veterinario:</span>
                       <span className="text-gray-900">${cita.precio_base_vet.toLocaleString('es-CL')}</span>
                     </p>
                   </div>
