@@ -69,7 +69,7 @@ export default function ConfirmationClientContent() { // <-- ¡NOMBRE DEL COMPON
   };
 
   const calculateTotalAppointment = () => {
-    let total = 0;
+    let total = appointment?.precio_base || 0;
     appointment?.mascotas?.forEach(mascota => {
      
       total += calculatePetServicesTotal(mascota.servicios);
@@ -287,7 +287,7 @@ export default function ConfirmationClientContent() { // <-- ¡NOMBRE DEL COMPON
              {appointment?.precio_base && appointment.precio_base > 0 && (
             <div className="mt-6 text-right">
                 <li className="flex text-sm justify-between items-center pr-4">
-                   <span> Precio Visita:</span>
+                   <span> Visita a domicilio:</span>
                    <span className="font-medium">${appointment.precio_base.toLocaleString('es-CL')}</span>
 
                 </li>
@@ -305,7 +305,7 @@ export default function ConfirmationClientContent() { // <-- ¡NOMBRE DEL COMPON
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-gray-500 text-xs italic mt-2">Sin servicios seleccionados para esta mascota.</p>
+                    <p className="text-gray-500 text-xs italic mt-2">Sin servicios adicionales para esta mascota.</p>
                   )}
                   {mascota.servicios && mascota.servicios.length > 0 && (
                     <div className="border-t border-gray-200 mt-3 pt-2 text-right">

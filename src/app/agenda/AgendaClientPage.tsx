@@ -93,7 +93,7 @@ export default function AgendaPage() {
           !!locationData.selectedTimeSlotId
         );
       case 2:
-        return mascotas.length > 0 && mascotas.every(pet => pet.servicios.length > 0);
+        return mascotas.length > 0 ;
       case 3:
         return (
           datosDueño.nombre.trim() !== '' &&

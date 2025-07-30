@@ -159,7 +159,7 @@ const calculatePetServicesTotal = (petId: string) => {
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-gray-500 text-sm italic mt-2">Sin servicios seleccionados para esta mascota</p>
+                  <p className="text-gray-500 text-sm italic mt-2">Sin servicios adicionales para esta mascota</p>
                 )}
                 {mascota.servicios.length > 0 && (
                   <div className="border-t border-gray-200 mt-3 pt-2 text-right">

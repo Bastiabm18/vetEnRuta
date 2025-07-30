@@ -48,14 +48,14 @@ export const PetForm = () => {
     setShowConfirmation(true); // Show the confirmation message
     setTimeout(() => {
       setShowConfirmation(false); // Hide the confirmation message after 2 seconds
-    }, 4000);
+    }, 5000);
   };
   
    useEffect(() => {
    setShowMesagge(true); // Reset the message visibility on mount
     setTimeout(() => {
       setShowMesagge(false); // Show the message after 2 seconds
-    }, 5000);
+    }, 10000);
   }, []);
 
   return (
