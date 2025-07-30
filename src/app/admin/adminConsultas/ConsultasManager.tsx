@@ -403,14 +403,14 @@ export default function ConsultasManager() {
                             <div className="ml-6 mt-2 w-full border-l pl-4 border-gray-200">
                               <p className="text-md font-semibold text-gray-800 mb-1">Servicios para {mascota.nombre}:</p>
                               <ul className="list-disc list-inside text-sm space-y-1">
-                {cita.precio_base !== undefined && (
+                { cita.precio_base_vet!==undefined && cita.precio_base !== undefined && (
                   <li key="pv1" className="text-gray-600 flex items-center justify-between">
                         <span className='flex flex-row items-center'>
                         <FaPaw className="mr-2 text-teal-500 text-xs"/>
                         Precio visita: ${cita.precio_base.toLocaleString('es-CL')}
                         </span>
                       <span className="text-gray-900">
-                     Valor veterinario: ${cita.precio_base_vet.toLocaleString('es-CL')}
+                     Pago veterinario: ${cita.precio_base_vet.toLocaleString('es-CL')}
                       </span>
                     
                   </li>
@@ -422,7 +422,7 @@ export default function ConsultasManager() {
                                     {servicio.nombre} (${servicio.precio.toLocaleString('es-CL')})
                                     </span>
                                     {servicio.precio_vet && (
-                                      <span className="ml-2 text-xs text-gray-500 text-right">Valor Veterinario: ${servicio.precio_vet.toLocaleString('es-CL')}</span>
+                                      <span className="ml-2 text-xs text-gray-500 text-right">Pago Veterinario: ${servicio.precio_vet.toLocaleString('es-CL')}</span>
                                     )}
                                   </li>
                                 ))}
