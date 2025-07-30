@@ -422,22 +422,28 @@ export default function ConsultasManager() {
                   </div>
                 )}
                      {/*NUEVA SECCION PAGO VETERINARIO*/}
-                    {cita.pago_vet !== undefined && (
+                    {cita.precio_base_vet !== undefined && cita.pago_vet !== undefined && (
                       <div className="p-4 rounded-md bg-blue-vet-light border border-blue-vet mb-4">
+                        <p className='text-lg font-bold text-gray-600 mb-2'>
+                          Resumen Veterinario
+                        </p>
                         <p className="text-base font-semibold text-gray-700 flex justify-between items-center">
-                          <span>Pago Veterinario:</span>
+                          <span>Pago servicios:</span>
                           <span className="text-gray-900">${cita.pago_vet.toLocaleString('es-CL')}</span>
+                        
+                        </p>
+                        <p className="text-base font-semibold text-gray-700 flex justify-between items-center">
+                           <span>Pago visita :</span>
+                          <span className="text-gray-900">${cita.precio_base_vet.toLocaleString('es-CL')}</span>
+                
+                        </p>
+                        <p className="text-base font-semibold text-gray-700 flex justify-between items-center">
+                          <span>Total Veterinario:</span>
+                          <span className="text-gray-900">${(cita.pago_vet + cita.precio_base_vet).toLocaleString('es-CL')}</span>
                         </p>
                       </div>
                     )}
-                    {cita.precio_base_vet !== undefined && (
-                  <div className="p-4 rounded-md bg-blue-vet-light border border-blue-vet mb-4">
-                    <p className="text-base font-semibold text-gray-700 flex justify-between items-center">
-                      <span>Pago visita veterinario:</span>
-                      <span className="text-gray-900">${cita.precio_base_vet.toLocaleString('es-CL')}</span>
-                    </p>
-                  </div>
-                )}
+
                 {/* Sección para mostrar el Recargo por Comuna */}
                 {cita.locationData?.costoAdicionalComuna !== null && cita.locationData?.costoAdicionalComuna !== undefined && cita.locationData.costoAdicionalComuna > 0 && (
                   <div className="p-4 rounded-md bg-gray-50 border border-gray-200 mb-4">
