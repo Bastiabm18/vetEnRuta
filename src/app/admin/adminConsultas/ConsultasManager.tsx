@@ -399,7 +399,7 @@ export default function ConsultasManager() {
                           {mascota.nombre} ({mascota.tipo})
                           {mascota.info_adicional && <span className="ml-2 text-sm text-gray-500">({mascota.info_adicional})</span>}
 
-                          {(cita.precio_base_vet!==undefined && cita.precio_base !== undefined)||mascota.servicios && mascota.servicios.length > 0 && (
+                          {mascota.servicios && mascota.servicios.length >= 0 && (
                             <div className="ml-6 mt-2 w-full border-l pl-4 border-gray-200">
                               <p className="text-md font-semibold text-gray-800 mb-1">Servicios para {mascota.nombre}:</p>
                               <ul className="list-disc list-inside text-sm space-y-1">
