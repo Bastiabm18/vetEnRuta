@@ -115,6 +115,7 @@ export default function ManageAppointmentModal({ isOpen, onClose, cita, onServic
             id: serviceToAdd.id,
             nombre: serviceToAdd.nombre,
             precio: finalPrice, // ✨ Usar el precio final calculado
+            precio_vet: serviceToAdd.precio_vet
           } as CitaServicio]
         };
       }

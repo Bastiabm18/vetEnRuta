@@ -370,17 +370,31 @@ const fetchCitas = async () => {
                           {mascota.nombre} ({mascota.tipo})
                           {mascota.info_adicional && <span className="ml-2 text-sm text-gray-500">Info Adicional: ({mascota.info_adicional})</span>}
 
-                          {mascota.servicios && mascota.servicios.length > 0 && (
+                    {mascota.servicios && mascota.servicios.length >= 0 && (
                             <div className="ml-6 mt-2 w-full border-l pl-4 border-gray-200">
                               <p className="text-md font-semibold text-gray-800 mb-1">Servicios para {mascota.nombre}:</p>
                               <ul className="list-disc list-inside text-sm space-y-1">
+                               
+                                   { cita.precio_base_vet!==undefined && cita.precio_base !== undefined && (
+                                     <li key="pv1" className="text-gray-600 flex items-center justify-between">
+                                           <span className='flex flex-row items-center'>
+                                           <FaPaw className="mr-2 text-teal-500 text-xs"/>
+                                           Visita a domicilio ${cita.precio_base.toLocaleString('es-CL')}
+                                           </span>
+                                         <span className="ml-2 text-xs text-gray-500 text-right">
+                                        Pago veterinario: ${cita.precio_base_vet.toLocaleString('es-CL')}
+                                         </span>
+
+                                     </li>
+                                   )}
+
                                 {mascota.servicios.map((servicio, svcIndex) => (
                                   <li key={svcIndex} className="text-gray-600 flex items-center justify-between">
-                                    <span className='flex flex-row items-center'> <FaPaw className="mr-2 text-teal-500 text-xs" />
+                                    <span className='flex flex-row items-center'><FaPaw className="mr-2 text-teal-500 text-xs" />
                                     {servicio.nombre} (${servicio.precio.toLocaleString('es-CL')})
-                                    </span>  
-                                             {servicio.precio_vet && (
-                                      <span className="ml-2 text-xs text-gray-500 text-right">Valor Veterinario: ${servicio.precio_vet.toLocaleString('es-CL')}</span>
+                                    </span>
+                                    {servicio.precio_vet && (
+                                      <span className="ml-2 text-xs text-gray-500 text-right">Pago Veterinario: ${servicio.precio_vet.toLocaleString('es-CL')}</span>
                                     )}
                                   </li>
                                 ))}
@@ -392,15 +406,17 @@ const fetchCitas = async () => {
                     </ul>
                   </div>
                 )}
-                {/*NUEVA SECCION PAGO VETERINARIO*/}
-                {cita.pago_vet !== undefined && (
-                  <div className="p-4 rounded-md bg-gray-50 border border-gray-200 mb-4">
-                    <p className="text-base font-semibold text-gray-700 flex justify-between items-center">
-                      <span>Pago Veterinario:</span>
-                      <span className="text-gray-900">${cita.pago_vet.toLocaleString('es-CL')}</span>
-                    </p>
-                  </div>
-                )}
+                      {/*NUEVA SECCION PAGO VETERINARIO*/}
+                    {cita.precio_base_vet !== undefined && cita.pago_vet !== undefined && (
+                      <div className="p-4 rounded-md bg-blue-vet-light border border-blue-vet mb-4">
+                        <p className="text-base font-semibold bt-2 text-gray-700 flex justify-between items-center">
+                          <span>Pago Veterinario:</span>
+                       <span className="text-gray-900">
+                         ${(Number(cita.pago_vet) + Number(cita.precio_base_vet)).toLocaleString('es-CL')}
+                       </span>
+                        </p>
+                      </div>
+                    )}
                    {/* NUEVO: Sección para mostrar el Recargo por Comuna */}
                 {cita.locationData?.costoAdicionalComuna !== null && cita.locationData?.costoAdicionalComuna !== undefined && cita.locationData.costoAdicionalComuna > 0 && (
                   <div className="p-4 rounded-md bg-gray-50 border border-gray-200 mb-4"> {/* Ajusta el estilo según tu diseño */}

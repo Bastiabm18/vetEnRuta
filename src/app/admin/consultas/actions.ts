@@ -79,6 +79,7 @@ export interface Cita {
   montoTotal?: number; // Para almacenar el monto total calculado
   precio_base?: number; // Para almacenar el precio base de la cita, si aplica
   pago_vet?: number; // Para almacenar el monto total para veterinarios
+  precio_base_vet?:number
 }
 
 interface Region {
@@ -235,6 +236,7 @@ export async function getCitaById(citaId: string): Promise<{ cita?: Cita; error?
       finalizada: data.finalizada ?? false, // Asume 'false' si no está definido
       montoTotal: calculatedTotalAmount ?? 0, // Asume '0' si no está definido
       precio_base: data.precio_base ?? 0, // Incluye el precio base si está disponible
+      precio_base_vet: data.precio_base_vet?? 0,
       fechaCreacion: formattedFechaCreacion,
       locationData: {
         ...data.locationData,
@@ -382,6 +384,7 @@ export async function getCitas(filterRegionId?: string, filterComunaId?: string)
         finalizada: data.finalizada ?? false,
         montoTotal: calculatedTotalAmount ?? 0,
         precio_base: data.precio_base ?? 0, 
+        precio_base_vet: data.precio_base_vet ?? 0,
         pago_vet: calculatedTotalAmountVet ?? 0,
         fechaCreacion: formattedFechaCreacion,
         locationData: {
@@ -606,6 +609,7 @@ export async function createCita(citaData: Omit<Cita, 'id' | 'fechaCreacion' | '
     const docRef = await adminFirestore.collection('citas').add({
       ...citaData,
       precio_base: citaData.precio_base ?? 0, // Asegura que precio_base se pase, o se inicialice a 0 si no viene
+      precio_base_vet: citaData.precio_base_vet ?? 0,
       locationData: {
         ...citaData.locationData,
         veterinario: veterinario,
