@@ -408,7 +408,7 @@ export default function ConsultasManager() {
                                      <li key="pv1" className="text-gray-600 flex items-center justify-between">
                                            <span className='flex flex-row items-center'>
                                            <FaPaw className="mr-2 text-teal-500 text-xs"/>
-                                           Visita a domicilio ${cita.precio_base.toLocaleString('es-CL')}
+                                           Consulta a domicilio ${cita.precio_base.toLocaleString('es-CL')}
                                            </span>
                                          <span className="ml-2 text-xs text-gray-500 text-right">
                                         Pago veterinario: ${cita.precio_base_vet.toLocaleString('es-CL')}
