@@ -23,13 +23,14 @@ interface Service {
 }
 
 export const ServicesGrid = () => {
-  const { mascotas } = useAppointmentStore(); // Obtiene las mascotas del store global
+   const { locationData, mascotas, precio_base } = useAppointmentStore();
+ 
   const [services, setServices] = useState<Service[]>([]); // Estado para todos los servicios obtenidos de Firestore
   const [loading, setLoading] = useState(true); // Estado para controlar el estado de carga
   const [selectedServicesLocal, setSelectedServicesLocal] = useState<Record<string, ServicioDetalle[]>>({}); // Servicios seleccionados localmente
   const [showConfirmation, setShowConfirmation] = useState(false); // Estado para mostrar confirmación de guardado
   const [searchTerm, setSearchTerm] = useState<string>(''); // Estado para el término de búsqueda de servicios
-
+ let precio_b = precio_base || 0;
   // Efecto para cargar los servicios desde Firestore y sincronizar selecciones iniciales
   useEffect(() => {
     const fetchServices = async () => {
@@ -176,6 +177,21 @@ export const ServicesGrid = () => {
 
               {/* Grid de servicios */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+           
+           {precio_b > 0 && (    
+             <div className="p-4 border rounded-lg cursor-pointer relative border-green-vet bg-green-vet">
+                        <div>
+                          <h5 className="font-medium text-black">consulta a domicilio</h5>
+                          <p className="text-sm text-gray-600">visita del veterinario</p>
+                        </div>
+
+                        <div className="flex flex-col items-end">
+                           <span className="text-black font-medium text-lg">
+                                ${precio_b.toLocaleString('es-CL')}
+                           </span>
+                          </div>
+                 </div>)}
+                
                 {services
                   .filter(service =>
                     // Filtra servicios según el tipo de mascota (solo "perro" o "gato")
