@@ -426,14 +426,7 @@ const fetchCitas = async () => {
                     </p>
                   </div>
                 )}
-                {cita.precio_base !== undefined && (
-                  <div className="p-4 rounded-md bg-gray-50 border border-gray-200 mb-4">
-                    <p className="text-base font-semibold text-gray-700 flex justify-between items-center">
-                      <span>Precio visita:</span>
-                      <span className="text-gray-900">${cita.precio_base.toLocaleString('es-CL')}</span>
-                    </p>
-                  </div>
-                )}
+
                 {/* NUEVA SECCIÓN PARA EL MONTO TOTAL */}
                 { cita.montoTotal !== undefined && (
                   <div className="bg-indigo-50 p-4 rounded-md border-t border-b border-indigo-200 mt-4">
