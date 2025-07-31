@@ -500,6 +500,7 @@ export async function getAvailableServices(): Promise<{ services?: Servicio[]; e
       // requiere_veterinario: doc.data().requiere_veterinario, // Eliminar si no existe en Firestore
       en_promocion: doc.data().en_promocion || false, // ✨ Obtener el nuevo campo
       new_price: doc.data().new_price, // ✨ Obtener el nuevo campo
+      precio_vet: doc.data().precio_vet,
     })) as Servicio[];
 
     return { services };
