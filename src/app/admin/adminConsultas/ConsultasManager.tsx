@@ -184,7 +184,7 @@ export default function ConsultasManager() {
         const currentCita = citas.find(c => c.id === citaToFinalizeId);
         if (!currentCita) throw new Error("Cita no encontrada para finalizar.");
 
-        const { totalAmount, ownerName, vetName, servicios } = result.data!;
+        const { totalAmount, ownerName, vetName, servicios,precioBase,precioComuna } = result.data!;
         const ownerPhone = currentCita.datosDueno.telefono; 
 
         if (!ownerPhone) {
@@ -197,8 +197,12 @@ export default function ConsultasManager() {
           `¡Hola ${ownerName}! 👋\n` +
           `Tu cita con el/la Dr(a). ${vetName} el día ${formattedCitaDate} a las ${currentCita.locationData.hora} ha finalizado.\n\n` +
           `Servicios realizados: ${servicios}\n` +
+          `Visita a domicilio: $${precioBase.toLocaleString('es-CL')}\n` +
+          `Recargo por Comuna: $${precioComuna.toLocaleString('es-CL')}\n` +
           `El monto total de los servicios es: $${totalAmount.toLocaleString('es-CL')}\n\n` +
-          `¡Gracias por confiar en nuestros servicios! 😊`
+          `¡Gracias por confiar en nuestros servicios! 😊`+
+          `Datos para el pago:\n` +
+          `Aqui van los datos de pago para la cita finalizada.\n` 
         );
         
         const cleanedPhone = ownerPhone.replace(/[\s\-\(\)]/g, '');
