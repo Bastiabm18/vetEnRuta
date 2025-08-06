@@ -631,7 +631,7 @@ export async function createCita(citaData: Omit<Cita, 'id' | 'fechaCreacion' | '
 }
 
 // --- NUEVA ACCIÓN DE SERVIDOR: finalizeAppointment ---
-export async function finalizeAppointment(appointmentId: string): Promise<{ success: boolean; data?: { totalAmount: number; ownerPhone: string; ownerName: string; vetName: string; servicios: string }; error?: string }> {
+export async function finalizeAppointment(appointmentId: string): Promise<{ success: boolean; data?: { totalAmount: number; ownerPhone: string; ownerName: string; vetName: string; servicios: string; precioBase: number; precioComuna: number }; error?: string }> {
   const veterinario = await getLoggedInVeterinario();
   if (!veterinario) {
     return { success: false, error: 'No autorizado. Inicia sesión.' };
@@ -676,9 +676,17 @@ export async function finalizeAppointment(appointmentId: string): Promise<{ succ
     const ownerPhone = appointmentData.datosDueno?.telefono || '';
     const ownerName = appointmentData.datosDueno?.nombre || '';
     const vetName = appointmentData.locationData?.veterinario?.nombre || veterinario.nombre;
-    const servicios = appointmentData.mascotas?.flatMap(m => m.servicios || []).map(s => s.nombre).join(', ') || '';
+    const precioBase = appointmentData.precio_base || 0;
+    const precioComuna = appointmentData.locationData?.costoAdicionalComuna || 0;
+    // --- LÍNEAS MODIFICADAS ---
+    const serviciosConPrecio = appointmentData.mascotas
+        ?.flatMap(mascota => mascota.servicios || []) // Obtiene todos los servicios en un solo arreglo
+        .filter(servicio => servicio && servicio.nombre && typeof servicio.precio === 'number') // Filtra servicios inválidos
+        .map(servicio => `${servicio.nombre}: $${servicio.precio.toLocaleString('es-CL')}`); // Crea el string "Nombre: $Precio"
 
-
+    // Une los servicios únicos en un texto final
+    const servicios = [...new Set(serviciosConPrecio)].join('\n');
+    // --- FIN DE LÍNEAS MODIFICADAS ---
     return {
       success: true,
       data: {
@@ -686,7 +694,9 @@ export async function finalizeAppointment(appointmentId: string): Promise<{ succ
         ownerPhone,
         ownerName,
         vetName,
-        servicios
+        servicios,
+        precioBase,
+        precioComuna
       }
     };
 

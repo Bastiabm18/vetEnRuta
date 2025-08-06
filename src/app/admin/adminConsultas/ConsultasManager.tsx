@@ -196,11 +196,12 @@ export default function ConsultasManager() {
         const message = encodeURIComponent(
           `¡Hola ${ownerName}! 👋\n` +
           `Tu cita con el/la Dr(a). ${vetName} el día ${formattedCitaDate} a las ${currentCita.locationData.hora} ha finalizado.\n\n` +
-          `Servicios realizados: ${servicios}\n` +
+          `Servicios realizados:\n` +
+          `${servicios}\n` +
           `Visita a domicilio: $${precioBase.toLocaleString('es-CL')}\n` +
           `Recargo por Comuna: $${precioComuna.toLocaleString('es-CL')}\n` +
           `El monto total de los servicios es: $${totalAmount.toLocaleString('es-CL')}\n\n` +
-          `¡Gracias por confiar en nuestros servicios! 😊`+
+          `¡Gracias por confiar en nuestros servicios! 😊 \n`+
           `Datos para el pago:\n` +
           `Aqui van los datos de pago para la cita finalizada.\n` 
         );

@@ -169,7 +169,7 @@ const fetchCitas = async () => {
         const currentCita = citas.find(c => c.id === citaToFinalizeId);
         if (!currentCita) throw new Error("Cita no encontrada para finalizar.");
 
-        const { totalAmount, ownerName, vetName, servicios } = result.data!;
+        const { totalAmount, ownerName, vetName, servicios, precioBase, precioComuna } = result.data!;
         const ownerPhone = currentCita.datosDueno.telefono; 
 
         if (!ownerPhone) {
@@ -179,12 +179,17 @@ const fetchCitas = async () => {
         // Formato de fecha para el mensaje de WhatsApp (usando la fecha ya formateada en la cita)
         const formattedCitaDate = currentCita.locationData.fecha && format(new Date(currentCita.locationData.fecha), "dd MMMM 'de 'yyyy", { locale: es });
 
-        const message = encodeURIComponent(
+     const message = encodeURIComponent(
           `¡Hola ${ownerName}! 👋\n` +
           `Tu cita con el/la Dr(a). ${vetName} el día ${formattedCitaDate} a las ${currentCita.locationData.hora} ha finalizado.\n\n` +
-          `Servicios realizados: ${servicios}\n` +
+          `Servicios realizados:\n` +
+          `${servicios}\n` +
+          `Visita a domicilio: $${precioBase.toLocaleString('es-CL')}\n` +
+          `Recargo por Comuna: $${precioComuna.toLocaleString('es-CL')}\n` +
           `El monto total de los servicios es: $${totalAmount.toLocaleString('es-CL')}\n\n` +
-          `¡Gracias por confiar en nuestros servicios! 😊`
+          `¡Gracias por confiar en nuestros servicios! 😊 \n`+
+          `Datos para el pago:\n` +
+          `Aqui van los datos de pago para la cita finalizada.\n` 
         );
         
         // Limpiar y formatear número de teléfono para WhatsApp (ej. para Chile +569)
