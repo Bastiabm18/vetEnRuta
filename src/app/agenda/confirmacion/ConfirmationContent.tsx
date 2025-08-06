@@ -70,6 +70,7 @@ export default function ConfirmationClientContent() { // <-- ¡NOMBRE DEL COMPON
 
   const calculateTotalAppointment = () => {
     let total =  0;
+    //
     appointment?.mascotas?.forEach(mascota => {
      
       total += calculatePetServicesTotal(mascota.servicios);
