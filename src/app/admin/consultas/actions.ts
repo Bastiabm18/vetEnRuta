@@ -631,7 +631,7 @@ export async function createCita(citaData: Omit<Cita, 'id' | 'fechaCreacion' | '
 }
 
 // --- NUEVA ACCIÓN DE SERVIDOR: finalizeAppointment ---
-export async function finalizeAppointment(appointmentId: string): Promise<{ success: boolean; data?: { totalAmount: number; ownerPhone: string; ownerName: string; vetName: string }; error?: string }> {
+export async function finalizeAppointment(appointmentId: string): Promise<{ success: boolean; data?: { totalAmount: number; ownerPhone: string; ownerName: string; vetName: string; servicios: string }; error?: string }> {
   const veterinario = await getLoggedInVeterinario();
   if (!veterinario) {
     return { success: false, error: 'No autorizado. Inicia sesión.' };
@@ -676,6 +676,8 @@ export async function finalizeAppointment(appointmentId: string): Promise<{ succ
     const ownerPhone = appointmentData.datosDueno?.telefono || '';
     const ownerName = appointmentData.datosDueno?.nombre || '';
     const vetName = appointmentData.locationData?.veterinario?.nombre || veterinario.nombre;
+    const servicios = appointmentData.mascotas?.flatMap(m => m.servicios || []).map(s => s.nombre).join(', ') || '';
+
 
     return {
       success: true,
@@ -684,6 +686,7 @@ export async function finalizeAppointment(appointmentId: string): Promise<{ succ
         ownerPhone,
         ownerName,
         vetName,
+        servicios
       }
     };
 
