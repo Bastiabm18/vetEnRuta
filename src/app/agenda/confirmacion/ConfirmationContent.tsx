@@ -64,7 +64,7 @@ export default function ConfirmationClientContent() { // <-- ¡NOMBRE DEL COMPON
 
   const calculatePetServicesTotal = (servicios?: ServicioConfirmacionFirestore[]) => {
     if (!servicios || servicios.length === 0) return 0;
-    let precio = appointment?.precio_base || 0; // Aseguramos que precio_base esté definido
+    let precio =  0; // Aseguramos que precio_base esté definido
     return precio += servicios.reduce((subtotal, service) => subtotal + (service.precio || 0), 0);
   };
 

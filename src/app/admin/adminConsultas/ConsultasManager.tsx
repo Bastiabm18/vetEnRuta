@@ -201,7 +201,7 @@ export default function ConsultasManager() {
         );
         
         const cleanedPhone = ownerPhone.replace(/[\s\-\(\)]/g, '');
-        const whatsappNumber = cleanedPhone.startsWith('+') ? cleanedPhone : `+569${cleanedPhone}`; // Asumiendo +569 para Chile
+        const whatsappNumber = cleanedPhone.startsWith('+') ? cleanedPhone : `+56${cleanedPhone}`; // Asumiendo +569 para Chile
 
         window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
 
@@ -221,7 +221,7 @@ export default function ConsultasManager() {
   const handleTestWhatsapp = (phoneNumber: string, ownerName: string) => {
     const testMessage = encodeURIComponent(`¡Hola ${ownerName}! Este es un mensaje de prueba de WhatsApp.`);
     const cleanedPhone = phoneNumber.replace(/[\s\-\(\)]/g, '');
-    const whatsappNumber = cleanedPhone.startsWith('+') ? cleanedPhone : `+569${cleanedPhone}`;
+    const whatsappNumber = cleanedPhone.startsWith('+') ? cleanedPhone : `+56${cleanedPhone}`;
     window.open(`https://wa.me/${whatsappNumber}?text=${testMessage}`, '_blank');
   };
 

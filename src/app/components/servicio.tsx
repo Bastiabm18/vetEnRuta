@@ -1,5 +1,6 @@
 "use client";
 import { motion, useInView } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { useRef, useEffect, useState } from "react";
 import { 
   FaStethoscope, FaSyringe, FaHeartbeat, FaBandAid, 
@@ -26,6 +27,7 @@ interface TypewriterTextProps {
 
 const TypewriterText: React.FC<TypewriterTextProps> = ({ text, start, delay = 0 }) => {
   const [displayedText, setDisplayedText] = useState("");
+  
   
   useEffect(() => {
     if (!start) return;
@@ -59,11 +61,12 @@ interface ServiceCardProps {
 const ServiceCard = ({ icon, title, description, index, bgColor, start }: ServiceCardProps) => {
   const cardRef = useRef(null);
   const isInView = useInView(cardRef, { once: true, margin: "0px 0px -100px 0px" });
-  
+  const router = useRouter();
 
   
   return (
     <motion.div
+      onClick={ () =>router.push('/agenda')}
       ref={cardRef}
       initial={{ x: -100, opacity: 0 }}
       animate={isInView ? { x: 0, opacity: 1 } : {}}
@@ -72,7 +75,7 @@ const ServiceCard = ({ icon, title, description, index, bgColor, start }: Servic
         type: "spring",
         stiffness: 100
       }}
-      className={`${bgColor} bg-opacity-90 hover:bg-opacity-80 p-2 rounded-lg flex flex-col items-center h-full text-gray-900 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out`}
+      className={`${bgColor} bg-opacity-90 hover:bg-opacity-80 p-2 rounded-lg cursor-pointer flex flex-col items-center h-full text-gray-900 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out`}
     >
       <motion.div 
         className="bg-white bg-opacity-20 w-12 h-12 rounded-full flex items-center justify-center mb-3 text-white"
