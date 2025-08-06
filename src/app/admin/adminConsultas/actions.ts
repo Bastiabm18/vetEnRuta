@@ -647,8 +647,15 @@ export async function finalizeAppointment(appointmentId: string): Promise<{ succ
     const ownerPhone = appointmentData.datosDueno?.telefono || '';
     const ownerName = appointmentData.datosDueno?.nombre || '';
     const vetName = appointmentData.locationData?.veterinario?.nombre || '';
-    const servicios = appointmentData.mascotas?.flatMap(m => m.servicios || []).map(s => s.nombre).join(', ') || '';
-
+    // --- LÍNEAS MODIFICADAS ---
+    const serviciosConPrecio = appointmentData.mascotas
+        ?.flatMap(mascota => mascota.servicios || []) // Obtiene todos los servicios en un solo arreglo
+        .filter(servicio => servicio && servicio.nombre && typeof servicio.precio === 'number') // Filtra servicios inválidos
+        .map(servicio => `${servicio.nombre}: $${servicio.precio.toLocaleString('es-CL')}`); // Crea el string "Nombre: $Precio"
+      
+    // Une los servicios únicos en un texto final
+    const servicios = [...new Set(serviciosConPrecio)].join('\n');
+    // --- FIN DE LÍNEAS MODIFICADAS ---
     return {
       success: true,
       data: {
