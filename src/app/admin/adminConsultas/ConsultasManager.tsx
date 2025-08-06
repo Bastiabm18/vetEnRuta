@@ -203,7 +203,12 @@ export default function ConsultasManager() {
           `El monto total de los servicios es: $${totalAmount.toLocaleString('es-CL')}\n\n` +
           `¡Gracias por confiar en nuestros servicios! 😊 \n`+
           `Datos para el pago:\n` +
-          `Aqui van los datos de pago para la cita finalizada.\n` 
+          `Nombre:  FRANCISCO JAVIER FUENTES \n`+
+          `RUT:  15.853.418-5 \n`+
+          `Banco:  Scotiabank \n`+
+          `Tipo Cuenta:  Cuenta Corriente \n`+
+          `Número Cuenta:  960081184 \n`+
+          `Correo:  FRANCISCOFUENTESNUTRICION@GMAIL.COM ` 
         );
         
         const cleanedPhone = ownerPhone.replace(/[\s\-\(\)]/g, '');
