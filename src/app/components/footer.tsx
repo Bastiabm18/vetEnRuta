@@ -171,7 +171,7 @@ export default function Footer() {
             <h3 className="font-bold text-lg mb-4">Contacto</h3>
             <address className="not-italic space-y-2">
               <p>Concepción, Bio Bío, Chile</p>
-              <p>Email: vetenruta@gmail.com</p>
+              <p>Email: tuvetenruta@gmail.com</p>
             </address>
           </motion.div>
         </motion.div>
